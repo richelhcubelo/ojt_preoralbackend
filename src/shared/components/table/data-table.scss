@@ -1,0 +1,122 @@
+@import "@fontsource/montserrat";
+
+.data-table {
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #d3d3d3;
+  background-color: #fff;
+  width: 100%;
+  max-width: 100%;
+  max-height: 300px; /* You can adjust this height as needed */
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow-x: auto; /* Enable horizontal scrolling for small screens */
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    position: relative; /* Ensures the table header's sticky position works */
+
+    thead {
+      position: sticky; /* Makes the header sticky */
+      top: 0; /* Position the header at the top */
+      z-index: 1; /* Ensures the header stays on top of other content */
+    }
+
+    th,
+    td {
+      padding: 4px 6px;
+      text-align: center; /* Center align all cells by default */
+      border-bottom: 1px solid #69b4d2;
+    }
+
+    th {
+      background-color: #e5e6d5;
+      color: #626161;
+      font-family: "Montserrat", sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    td {
+      font-family: "Montserrat", sans-serif;
+      font-size: 14px; /* Increase font size for better readability */
+      color: rgba(0, 0, 0, 0.9);
+
+      // Specific styles for student info to ensure left alignment
+      &.student-info {
+        text-align: left; // Ensure student info is left-aligned
+      }
+
+      &.action-icons {
+        display: flex; // Use flexbox for centering
+        justify-content: center; // Center content horizontally
+        gap: 10px; // Space between icons (if you have more than one)
+      }
+    }
+
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    // Center align action icons in the Action column
+    .action-icons {
+      text-align: center; // Center align icons in Action column
+    }
+
+    .edit-icon {
+      cursor: pointer; // Change cursor to pointer on hover
+      color: #007bff; // Optional color for edit icon
+      &:hover {
+        color: #0056b3; // Darker blue on hover
+      }
+    }
+  }
+
+  .first-name {
+    max-width: 150px; /* Adjust the max-width as needed */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: capitalize;
+  }
+
+  .status {
+    display: flex;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: capitalize;
+
+    &.active {
+      background-color: transparent; // Remove background color
+      color: #509f53; // Subtle green text color
+    }
+
+    &.expired {
+      background-color: #fdecea; // Very light red
+      margin: 15px;
+      padding: 14px 15px;
+      border-radius: 8px;
+      color: #c62828; // Subtle red text color
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .data-table {
+    padding: 5px;
+
+    table {
+      th,
+      td {
+        padding: 8px; /* Adjust padding for mobile */
+        font-size: 12px; /* Reduce font size for mobile */
+      }
+
+      th {
+        font-size: 12px;
+      }
+    }
+  }
+}

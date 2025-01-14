@@ -1,0 +1,64 @@
+.internship-report-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .search-wrapper {
+    padding-right: 25em;
+    width: 100%;
+    max-width: 300px; // Adjust this value as needed
+    margin: 0 auto; // Center the search bar without extra horizontal space
+  }
+
+  .content-wrapper {
+    display: flex; // Use flexbox to create two columns
+    width: 100%; // Ensure the wrapper takes full width
+    margin-top: 1em; // Space above the content
+
+    // Styles for the left side (table)
+    .data-table {
+      margin-right: 1.5em; // Space between table and time info
+      margin-left: 3em;
+      max-height: 20em;
+      width: 65%;
+    }
+
+    // Styles for the right side (time info)
+    .time-info {
+      color: #0b6477;
+      font-weight: 500;
+      align-self: flex-start; // Aligns the time-info to the left
+      font-family: "Montserrat", sans-serif; // Added Montserrat font
+
+      p {
+        margin: 5px 0; // Reduced paragraph margins for less vertical space
+        text-align: left; // Ensures text within paragraphs is left-aligned
+      }
+
+      // Add styles for print button container
+      .print-button-container {
+        margin-left: 4em;
+        margin-top: 5em; // Space above the print button
+      }
+    }
+  }
+
+  .studenttime {
+    display: flex;
+    flex-direction: column; // Ensure content is displayed vertically
+
+    p {
+      margin: 0; // Remove default margins
+      line-height: 1; // Adjust spacing between lines
+      font-size: 14px; // Optional: Adjust font size if necessary
+      padding: 5px 0; // Add padding for space between text items
+
+      &::before {
+        content: attr(data-label); // Use the data-label attribute as a prefix
+        font-weight: bold;
+        margin-right: 5px; // Add space between label and actual data
+        width: 100px; // Adjust width based on label length
+      }
+    }
+  }
+}

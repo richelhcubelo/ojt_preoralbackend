@@ -1,0 +1,65 @@
+.user-management-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+  padding: 1em; /* Padding around the content */
+  box-sizing: border-box;
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: auto; /* Pushes the search bar to the bottom */
+  }
+
+  .page-title {
+    font-size: 1.5em;
+    color: rgba(0, 0, 0, 0.56);
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+  }
+
+  .sub-title {
+    font-size: 1rem;
+    color: #333;
+    font-family: "Montserrat", sans-serif;
+    margin-top: 0.5em;
+  }
+
+  .search-bar-container {
+    margin-top: auto; /* Moves the search bar to the bottom */
+    padding-top: 1em; /* Padding between the titles and search bar */
+  }
+
+  @media (max-width: 768px) {
+    .page-title,
+    .sub-title {
+      font-size: 1.5rem;
+      margin-left: 0.5em;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page-title,
+    .sub-title {
+      font-size: 1.2rem;
+      margin-left: 0.2em;
+    }
+  }
+}
+
+// Responsive Styles
+@media (max-width: 768px) {
+  .page-title,
+  .sub-title {
+    font-size: 1.5rem;
+    margin-left: 0.5em;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title,
+  .sub-title {
+    font-size: 1.2rem;
+    margin-left: 0.2em;
+  }
+}

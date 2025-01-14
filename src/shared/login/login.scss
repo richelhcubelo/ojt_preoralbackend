@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;700&family=Montserrat:wght@400;700&display=swap");
+
+html,
+body {
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  margin: 0; /* No margin */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+    to bottom,
+    #12828b 11%,
+    #0b9ca7 38%,
+    #12b3c0 62%,
+    #18c3d1 80%
+  );
+}
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%; // Full width
+  height: auto; // Allow height to adjust based on content
+}
+
+.logo {
+  margin-bottom: 5px; /* Space between logo and input fields */
+  width: auto; /* Maintain aspect ratio */
+  height: 120px; /* Adjust height as needed */
+  max-width: 100%; /* Ensure responsiveness */
+}
+
+.input-container {
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input-field {
+  width: 100%;
+  margin-bottom: 20px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: normal; /* Changed to normal for better readability */
+  font-size: 15px;
+  color: rgba(0, 0, 0, 0.56);
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}

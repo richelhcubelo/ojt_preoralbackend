@@ -1,0 +1,139 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap");
+
+.dashboard-page {
+  margin: 0; /* Remove any margin on the container */
+  padding: 0; /* Remove any padding on the container */
+  padding-top: -0.1; /* Optional: Add small padding if needed */
+  overflow: hidden;
+
+  .page-title {
+    font-size: 1.6em;
+    color: rgba(0, 0, 0, 0.56);
+    margin: 0; /* Remove any margin on the title */
+    padding-left: 1.8em; /* Replace margin-left with padding */
+    font-family: "Montserrat", sans-serif;
+    font-weight: normal;
+  }
+
+  .page-subtitle {
+    font-size: 1em;
+    color: rgba(0, 0, 0, 0.56);
+    margin: 0; /* Remove any margin on the subtitle */
+    padding-left: 1.8em; /* Replace margin-left with padding */
+    font-family: "Montserrat", sans-serif;
+    font-weight: normal;
+    margin-left: 1.3em;
+  }
+
+  .search-bar-container {
+    padding: 1em 1.6em; /* Adjusts space below subtitle */
+    font-family: "Montserrat", sans-serif;
+  }
+}
+
+.modal-custom-header-admin-program {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid #ddd;
+
+  .header-left {
+    margin-left: 20px;
+    margin-bottom: 0px;
+
+    .main-header {
+      font-family: "Montserrat", sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #333;
+      opacity: 0.7;
+      line-height: 1.2;
+      display: flex;
+      @media (max-width: 768px) {
+        font-size: 22px;
+      }
+    }
+    .sub-header {
+      font-family: "Montserrat", sans-serif;
+      font-size: 0.905rem;
+      font-weight: 400;
+      color: #666;
+      opacity: 0.7;
+      line-height: 1;
+      margin-right: 8.75rem;
+      display: flex;
+
+      @media (max-width: 768px) {
+        font-size: 16px;
+      }
+    }
+  }
+}
+.modal-body {
+  display: flex;
+  justify-content: space-between;
+  padding: 25px;
+  margin-top: 0.5em;
+}
+
+.modal-program {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 10px;
+  color: #333;
+
+  label {
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    color: #333;
+    margin-right: 18em;
+  }
+  .description-modal {
+    margin-left: 1em;
+  }
+  .name-input-field {
+    position: relative;
+    margin-bottom: 20px;
+    margin-right: 2em;
+    width: 300px; // Increased width
+
+    label {
+      display: block;
+      font-family: "Montserrat", sans-serif;
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    input {
+      padding: 10px 35px 10px 10px; // Padding to accommodate icon
+      font-family: "Montserrat", sans-serif;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+      height: 30px;
+      color: #333;
+
+      &:focus {
+        border-color: #575c5e;
+      }
+    }
+
+    .icon {
+      position: absolute;
+      right: 10px; // Position the icon inside the input field
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+      font-size: 16px;
+    }
+  }
+}
+.error-icon {
+  color: red; // Change color as needed
+  margin-right: 10px; // Space between icon and text
+}

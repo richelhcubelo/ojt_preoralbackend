@@ -1,0 +1,11 @@
+.donut-chart-card {
+  background-color: adjust-hue($color: #000000, $degrees: 0);
+}
+
+.donut-chart-card-label {
+  font-size: 19px; // Font size for the label
+  font-weight: bold; // Bold text for the label
+  margin-bottom: 28px; // Space between the label and the chart
+  text-align: center; // Center align the label
+  color: #333333; // Dark color for the label
+}

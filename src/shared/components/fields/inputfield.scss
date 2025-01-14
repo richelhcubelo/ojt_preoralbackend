@@ -1,0 +1,62 @@
+.input-field {
+  position: relative;
+  margin-bottom: 20px;
+
+  input {
+    width: 83%;
+    height: 40px;
+    padding: 10px 10px 10px 50px;
+    margin: 10px 0;
+    border: 1.5px solid rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    font-size: 17px;
+    background-color: transparent;
+    color: black;
+
+    &:focus {
+      border-color: #b0b0b0;
+      outline: none;
+      box-shadow: 0 0 5px rgba(176, 176, 176, 0.5);
+      color: black;
+    }
+
+    &.input-error {
+      border-color: #718355;
+    }
+  }
+
+  .input-icon,
+  .toggle-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.56);
+  }
+
+  .input-icon {
+    left: 10px;
+    padding-left: 12px;
+    padding-right: 15px;
+    color: gray;
+    background-color: transparent;
+  }
+
+  .toggle-icon {
+    right: 10px;
+    padding-left: 12px;
+    padding-right: 0px;
+    cursor: pointer;
+    color: gray;
+  }
+
+  .error-message {
+    color: #9d1f1f;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 5px;
+    position: absolute;
+    bottom: -20px;
+    left: 10px;
+  }
+}

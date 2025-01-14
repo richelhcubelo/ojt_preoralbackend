@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;700&family=Montserrat:wght@400;700&display=swap");
+
+.secondary-button {
+  width: 300px;
+  height: 48px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #27c495;
+  color: black;
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 100;
+  font-size: 17px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background: linear-gradient(to bottom, #1a8b69 20%, #27c495 82%);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  &:active {
+    background-color: #207588;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+}

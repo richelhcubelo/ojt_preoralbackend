@@ -1,0 +1,24 @@
+// bar-chart.scss
+.bar-chart-card {
+  padding: 1em;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.bar-chart-card-label {
+  font-size: 19px; // Font size for the label
+  font-weight: bold; // Bold text for the label
+  margin-bottom: 20px; // Space between the label and the chart
+  text-align: center; // Center align the label
+  color: #333333; // Dark color for the label
+}
+
+.chart-container {
+  flex: 2; /* Adjust as needed */
+  background-color: #fff;
+  padding: 1em; /* Adjust padding as necessary */
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.3) -1px -1px,
+    rgba(255, 255, 255, 0.7) -1px -1px inset;
+}

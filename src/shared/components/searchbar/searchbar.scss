@@ -1,0 +1,81 @@
+@import "@fontsource/montserrat";
+
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.56);
+
+  input {
+    width: 100%;
+    padding: 1em 2em;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    margin-right: 1em;
+    background-color: white;
+    color: black;
+
+    &:focus {
+      border-color: #b0b0b0;
+      box-shadow: 0 0 5px rgba(176, 176, 176, 0.5);
+      color: black;
+    }
+  }
+
+  &:hover input {
+    border-color: #615f5f;
+    box-shadow: 0 0 5px rgba(176, 176, 176, 0.5);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 10px;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.56);
+  }
+}
+
+.filter {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  select {
+    padding: 1em 2em;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 14px;
+    appearance: none;
+    background: white;
+    color: rgba(0, 0, 0, 0.56);
+    transition: border-color 0.3s, box-shadow 0.3s;
+
+    &:hover {
+      border-color: #b7b4b4;
+      box-shadow: 0 0 5px rgba(176, 176, 176, 0.5);
+    }
+
+    &:focus {
+      border-color: #b0b0b0;
+      box-shadow: 0 0 5px rgba(176, 176, 176, 0.5);
+      color: black;
+      outline: none; // Added to remove the default focus outline
+    }
+  }
+
+  .filter-icon {
+    position: absolute;
+    left: 10px;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.3);
+  }
+}

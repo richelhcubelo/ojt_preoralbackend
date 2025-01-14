@@ -1,0 +1,370 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap");
+
+.dashboard-page {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: hidden;
+
+  .dropdown-container {
+    position: relative;
+  }
+  .page-title {
+    font-size: 1.6em;
+    color: rgba(0, 0, 0, 0.56);
+    padding-left: 1.8em;
+    font-family: "Montserrat", sans-serif;
+    font-weight: normal;
+  }
+
+  .page-subtitle {
+    font-size: 1em;
+    color: rgba(0, 0, 0, 0.56);
+    padding-left: 1.8em;
+    font-family: "Montserrat", sans-serif;
+    font-weight: normal;
+    margin-left: 1.3em;
+  }
+
+  .controls-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .search-bar-container {
+    flex: 1; /* Makes the search bar take up as much space as possible */
+    padding: 1em 0;
+  }
+
+  .dropdown-container {
+    margin-right: 16em;
+  }
+
+  .add-button-container {
+    padding: 1.8em 0;
+    margin-right: 4em;
+
+    button {
+      font-size: 0.95em; /* Change this value to adjust the font size */
+    }
+  }
+
+  .data-table {
+    width: 90%; // Adjust the width as needed (e.g., 80% of the container)
+    margin: 0 auto;
+    max-width: 90%;
+    max-height: 24em;
+  }
+
+  table {
+    width: 100%; // Make the table take up the full width of the container
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .student-info {
+    text-align: left;
+  }
+}
+
+.student-info {
+  display: flex;
+  flex-direction: column; // Ensure content is displayed vertically
+
+  p {
+    margin: 0; // Remove default margins
+    line-height: 1.4; // Adjust spacing between lines
+    font-size: 14px; // Optional: Adjust font size if necessary
+    padding: 5px 0; // Add padding for space between text items
+
+    // Styles for the label part (Name:, Address:, etc.)
+    &::before {
+      content: attr(data-label); // Use the data-label attribute as a prefix
+      font-weight: bold;
+      margin-right: 5px; // Add space between label and actual data
+
+      width: 100px; // Adjust width based on label length
+    }
+  }
+}
+/*---------------------------------------------------*/
+
+.modal-custom-header-student {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid #ddd;
+
+  .header-left {
+    margin-left: 20px;
+    margin-bottom: 0px;
+
+    .main-header {
+      font-family: "Montserrat", sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #333;
+      opacity: 0.7;
+      line-height: 1.2;
+      display: flex;
+      @media (max-width: 768px) {
+        font-size: 22px;
+      }
+    }
+
+    .sub-header {
+      font-family: "Montserrat", sans-serif;
+      font-size: 0.905rem;
+      font-weight: 400;
+      color: #666;
+      opacity: 0.7;
+      line-height: 1;
+      margin-right: 8.75rem;
+      display: flex;
+
+      @media (max-width: 768px) {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+.modalbody {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px;
+  margin-top: 0.6em;
+  margin-left: 1.5em;
+}
+
+.left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 15px;
+  color: #333;
+
+  .drop {
+    margin: -5px;
+    width: 87%;
+    margin-left: 0.1em;
+  }
+  h4 {
+    font-family: "Montserrat", sans-serif; // Use the same font as other text
+    font-size: 0.8em; // Adjust size as needed
+    font-weight: 600; // Make it bold for emphasis
+    text-align: center; // Center align the text
+    color: #9e9494; // Change color if needed
+    margin-bottom: 0; // Add some space below the heading
+    padding-bottom: 0px;
+    margin-top: 0;
+  }
+
+  label {
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    color: #333;
+    margin-right: 19em;
+    align-items: left;
+  }
+
+  .name-input-field {
+    position: relative;
+    margin-bottom: 8px;
+    margin-right: 2em;
+    width: 300px; // Increased width
+
+    label {
+      display: block;
+      font-family: "Montserrat", sans-serif;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    input {
+      padding: 10px 35px 10px 10px; // Padding to accommodate icon
+      font-family: "Montserrat", sans-serif;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+      height: 30px;
+      color: #333;
+
+      &:focus {
+        border-color: #575c5e;
+      }
+    }
+
+    .icon {
+      position: absolute;
+      right: 10px; // Position the icon inside the input field
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+      font-size: 16px;
+    }
+  }
+}
+
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  margin: 10px;
+  color: #333;
+
+  label {
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    color: #333;
+    margin-right: 18em;
+  }
+}
+
+.left-component {
+  padding-left: 10px;
+  margin: 0px;
+  gap: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+  margin-left: 2em;
+
+  label {
+    padding-right: 0px;
+    display: flex;
+    margin-left: 4px;
+    margin-bottom: 2px;
+    font-size: 0.9em;
+    padding-top: 0;
+    font-size: 14px;
+  }
+
+  .dropdowns {
+    width: 85%; // Set a specific width for dropdowns
+    max-width: 100%; // Ensure it doesn't exceed the container width
+    margin-bottom: 15px;
+    gap: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-custom-header-student {
+    padding: 10px;
+  }
+
+  .modalbody {
+    flex-direction: column;
+  }
+
+  .left,
+  .right {
+    flex: auto;
+    width: 100%;
+  }
+}
+
+.credentials-modal-body {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 30px;
+
+  label {
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    color: #5d3a29;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    display: flex;
+  }
+
+  .name-input-field {
+    position: relative;
+    margin-bottom: 10px;
+    width: 80%;
+
+    label {
+      display: flex;
+      font-family: "Montserrat", sans-serif;
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    input {
+      padding: 10px 10px 10px 40px; // Padding to accommodate icon
+      font-family: "Montserrat", sans-serif;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: white; /* Ensure input field is white */
+      color: black;
+      font-size: 16px;
+      outline: none;
+      height: 30px;
+      width: 100%; // Full width to fit the container
+
+      &:focus {
+        border-color: #b0b0b0;
+        outline: none;
+        box-shadow: 0 0 5px rgba(176, 176, 176, 0.5);
+        color: black;
+      }
+    }
+
+    .icon {
+      position: absolute;
+      left: 15px;
+      top: 60%;
+      transform: translateY(-50%);
+      color: #888;
+      font-size: 16px;
+      pointer-events: none;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 20px;
+      top: 65%;
+      transform: translateY(-50%);
+      color: #888;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 10px 10px 10px 40px;
+    }
+  }
+
+  .name-input-field-wrapper {
+    width: auto;
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px; // Adjusted font size to match input
+    color: #333;
+    resize: horizontal;
+    margin-bottom: 5px;
+  }
+}
+@media (max-width: 768px) {
+  table {
+    font-size: 0.85em; // Decrease font size for smaller screens
+  }
+
+  th,
+  td {
+    padding: 8px; // Adjust padding for smaller screens
+  }
+}

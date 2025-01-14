@@ -1,0 +1,181 @@
+@import "@fontsource/montserrat";
+@import "@fontsource/kaisei-decol";
+
+.dashboard {
+  overflow-y: hidden;
+}
+
+.admin-sidebar {
+  width: 16em;
+  position: relative;
+  height: calc(100vh - 2em);
+  margin: 1.5em;
+  border-radius: 2em;
+  background: linear-gradient(
+    to bottom,
+    #12828b 11%,
+    #0b9ca7 38%,
+    #12b3c0 62%,
+    #18c3d1 80%
+  );
+  padding: 1.125em;
+  height: 89vh;
+  display: flex;
+  flex-direction: column;
+  font-family: "Montserrat", sans-serif;
+  transition: width 0.3s ease;
+}
+
+.sub-menu {
+  margin-left: 2em;
+
+  .sidebar-item {
+    font-size: 0.875em; // Slightly smaller font size
+    color: rgba(0, 0, 0, 0.7); // Lighter color for submenu items
+  }
+}
+
+.business-name-container {
+  margin-top: 4.063em;
+  margin-bottom: 2.8125em;
+}
+
+.sidebar-items-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  padding: 0.625em;
+  flex-grow: 1;
+  margin-top: 15px;
+  border: none;
+  outline: none;
+}
+
+.sidebar-item {
+  background: none;
+  border: none;
+  padding: 0.9375em 1.5625em;
+  margin: 0.1875em 0;
+  outline: none;
+
+  cursor: pointer;
+  font-size: 1em;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  text-align: left;
+  color: rgba(0, 0, 0, 0.56);
+  border-radius: 0.625em;
+  transition: 0.3s, color 0.3s;
+  display: flex;
+  align-items: center;
+  width: 15.375em; // Adjusted width
+  height: 3.125em;
+
+  .sidebar-icon {
+    margin-right: 0.625em; // 10px / 16
+    font-size: 1.1875em; // 19px / 16
+    color: rgba(0, 0, 0, 0.56);
+  }
+  .chevron-icon {
+    margin-left: auto; // Align chevron icon to the far right
+    font-size: 0.875em; // Adjust size of the chevron
+    color: rgba(0, 0, 0, 0.56);
+  }
+
+  &:hover {
+    background-color: #b5c99a;
+    color: black;
+    padding: 1.0625em 1.5625em;
+    box-shadow: none;
+    height: 3.125em;
+
+    .sidebar-icon {
+      color: black;
+    }
+  }
+
+  &.active {
+    background-color: #b5c99a;
+    color: rgb(0, 0, 0);
+    padding: 1.0625em 1.5625em;
+    font-weight: 500;
+    width: 15.375em;
+    box-shadow: none;
+    height: 3.125em;
+
+    .sidebar-icon {
+      color: black;
+    }
+  }
+}
+
+.logout-button-container {
+  margin-bottom: 3.438em; // 50px / 16
+  display: flex;
+  justify-content: center;
+
+  .button-icon {
+    margin-right: 0.5em; /* Space between icon and text */
+    font-size: 1em; /* Icon size */
+  }
+}
+
+.modal-custom-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.625em; // 10px / 16
+
+  .header-left {
+    margin-bottom: 0;
+
+    .main-header {
+      font-family: "Montserrat", sans-serif;
+      font-size: 1.75em; // 28px / 16
+      font-weight: 700;
+      color: #333;
+      margin: 0.625em; // 10px / 16
+      opacity: 0.7;
+      line-height: 1.2;
+
+      @media (max-width: 768px) {
+        font-size: 1.375em; // 22px / 16
+      }
+    }
+
+    .sub-header {
+      font-family: "Montserrat", sans-serif;
+      font-size: 1.125em; // 18px / 16
+      font-weight: 400;
+      color: #666;
+      margin-top: 0.625em; // 10px / 16
+      margin-bottom: 1.875em; // 30px / 16
+      opacity: 0.6;
+      line-height: 1.4;
+
+      @media (max-width: 768px) {
+        font-size: 1em; // 16px / 16
+      }
+    }
+  }
+}
+
+// Responsive styles for smaller screens
+@media (max-width: 700px) {
+  .sidebar {
+    width: 100%; // Full width on small screens
+    height: auto; // Adjust height
+    position: static; // Reset position to flow with content
+  }
+
+  .sidebar-items-container {
+    padding: 0.5em; // Adjust padding
+  }
+
+  .sidebar-item {
+    width: 100%; // Full width on small screens
+    padding: 0.75em; // Adjust padding for smaller screens
+    font-size: 0.875em; // Slightly smaller font size
+    height: auto; // Adjust height to fit content
+  }
+}

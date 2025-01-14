@@ -1,0 +1,79 @@
+.dropdown-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.9rem;
+  color: #333;
+  font-family: "Montserrat", sans-serif;
+}
+
+.dropdown-label {
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  align-items: left;
+  text-align: left;
+  font-size: 14px;
+}
+
+.dropdown-select {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 0;
+}
+
+select {
+  flex: 1; /* Take up remaining space */
+  padding: 0; /* Adjust padding for dropdown */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  appearance: none;
+  background: white;
+  color: rgba(0, 0, 0, 0.56);
+  transition: border-color 0.3s, box-shadow 0.3s;
+  height: 3.5em;
+  margin-bottom: 0em;
+  padding-bottom: 0;
+  margin: 0;
+  top: 0;
+  gap: 0;
+
+  &:hover {
+    border-color: #b7b4b4;
+    box-shadow: 0 0 5px rgba(176, 176, 176, 0.5);
+  }
+
+  &:focus {
+    border-color: #b0b0b0;
+    box-shadow: 0 0 5px rgba(176, 176, 176, 0.5);
+    color: rgba(0, 0, 0, 0.56);
+    outline: none;
+  }
+
+  option {
+    font-size: 16px; /* Adjust font size for options */
+    color: black;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400; /* Apply color to options */
+  }
+
+  option[value=""] {
+    background-color: #e0e0e0; /* Gray background for the 'Select' option */
+    color: rgba(0, 0, 0, 0.56); /* Ensure text color is consistent */
+  }
+}
+
+.dropdown-icon {
+  position: absolute;
+  right: 10px; /* Adjust icon position */
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(0, 0, 0, 0.56);
+  pointer-events: none; /* Ensure icon doesn't interfere with select */
+  z-index: 1; /* Ensure icon is above select */
+}

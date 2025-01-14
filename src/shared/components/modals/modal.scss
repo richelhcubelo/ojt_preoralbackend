@@ -1,0 +1,126 @@
+@import "@fontsource/montserrat";
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure the modal is on top */
+}
+
+.modal-content {
+  background: rgba(
+    255,
+    255,
+    255,
+    0.9
+  ); /* Set white background with 90% opacity */
+  padding: 28px;
+  border-radius: 12px;
+  text-align: center;
+  width: 100%;
+  max-width: 400px; /* Default max-width for small modal */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
+}
+
+.modal-content.smallmed {
+  max-width: 100%;
+  width: 400px;
+  height: 350px;
+  /* Adjust dimensions for medium modal */
+}
+.modal-content.large {
+  max-width: 100%;
+  width: 750px;
+  height: 500px; /* Adjust max-width for large modal */
+}
+
+.modal-content.medlarge {
+  max-width: 100%;
+  width: 500px;
+  height: 550px; /* Adjust max-width for large modal */
+}
+
+.modal-content.medium {
+  max-width: 100%;
+  width: 500px;
+  height: 400px;
+  /* Adjust dimensions for medium modal */
+}
+.modal-content.medium2 {
+  max-width: 100%;
+  width: 400px;
+  height: 520px;
+  /* Adjust dimensions for medium modal */
+}
+
+.modal-content.extralarge {
+  max-width: 100%;
+  width: 750px;
+  height: 600px; /* Adjust max-width for large modal */
+}
+
+.modal-content-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: auto;
+  margin-bottom: 10px;
+}
+
+.modal-buttons.bottom {
+  justify-content: flex-end;
+}
+
+.cancel-button,
+.confirm-button {
+  width: 150px; /* Fixed width for the buttons */
+  padding: 13px 0; /* Adjust vertical padding */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 17px; /* Adjust font size */
+  font-family: "Montserrat", sans-serif; /* Use Montserrat font */
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  box-sizing: border-box; /* Ensure padding doesn't add to the width */
+}
+
+.cancel-button {
+  background-color: #ffffff;
+  border: 1px solid #8e8e8e;
+  color: #8e8e8e;
+
+  &:hover,
+  &:focus {
+    background-color: #f0f0f0;
+    border-color: #ccc;
+  }
+}
+
+.confirm-button {
+  background-color: #238ba2;
+  color: white;
+
+  &:hover,
+  &:focus {
+    background-color: #1b7488;
+  }
+}
+
+/* Specific styles for Scan QR Modal */
+.scan-qr-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

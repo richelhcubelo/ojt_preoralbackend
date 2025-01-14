@@ -1,0 +1,18 @@
+.recentcoordinators {
+  background-color: rgb(184, 88, 88);
+  border-radius: 8px;
+  padding: 50px;
+  color: black;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 8em;
+  margin-left: 0.5em;
+
+  h2 {
+    font-size: 1.2em;
+  }
+  .new-members-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}

@@ -1,0 +1,39 @@
+.dashboard-page {
+  .tab-container {
+    display: flex;
+    gap: 1em;
+    margin-bottom: 2em;
+    margin-top: 2em;
+    margin-left: 3em;
+
+    // Add this to style the buttons
+    .button {
+      width: 500px; // Set your desired width
+      padding: 0.5em; // Adjust padding if necessary
+      text-align: center; // Center text
+    }
+  }
+
+  .dropdown-container {
+    margin: 1em 0;
+    justify-content: center;
+    align-content: center;
+    select {
+      padding: 0.5em;
+      border-radius: 8px;
+      border: 1px solid #d3d3d3;
+      width: 200px;
+    }
+  }
+
+  .time-info {
+    margin: 1em 0;
+    p {
+      margin: 0.5em 0;
+    }
+  }
+
+  .data-table {
+    margin-top: 1em;
+  }
+}

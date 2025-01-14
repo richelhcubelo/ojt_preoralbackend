@@ -1,0 +1,68 @@
+.reminder-card {
+  background: linear-gradient(45deg, #11ffb7 33%, #11f2e8 66%, #17c9ef 99%);
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 300px; // Ensure cards have a max width to fit within the container
+  margin-top: 1em;
+  margin-left: 1em;
+  font-family: "Montserrat", sans-serif;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  .card-title {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 30px;
+  }
+
+  .card-content {
+    font-size: 0.98em;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    text-align: justify;
+  }
+
+  .card-footer {
+    font-size: 0.8em;
+    color: #630a89;
+    text-align: right;
+    font-weight: 600;
+    margin-top: 3em;
+  }
+}
+/*.announcement-cards-wrapper {
+  border-radius: 10px;
+  width: 70vw; // Set width to 80%
+  height: 60vh; // Set a fixed height for the wrapper
+  margin: 0 auto; // Center the container
+  padding: 0.5em; // Optional padding for aesthetics
+  background-color: #d6c4c4; // Optional background color for visibility
+  overflow-x: auto; // Enable horizontal scrolling
+}
+.announcement-cards-container {
+  padding-left: 4em;
+  padding-right: 2em;
+  display: flex; // Use Flexbox for horizontal layout
+  flex-wrap: nowrap; // Prevent wrapping to keep cards in a single row
+  gap: 20px; // Add space between the cards
+  position: fixed;
+  padding: 0.5em; // Optional padding for the container
+}*/
+
+.announcement-cards-wrapper {
+  width: 88%; // Full width of the container
+  height: 46vh; // Set a fixed height for the wrapper
+  margin: 0 auto; // Center the container
+  padding: 0.5em; // Optional padding for aesthetics
+  background-color: #ffffff; // Optional background color for visibility
+  overflow-x: auto; // Enable horizontal scrolling
+  border-radius: 10px;
+}
+
+.announcement-cards-container {
+  display: flex; // Use Flexbox for horizontal layout
+  flex-wrap: nowrap; // Prevent wrapping to keep cards in a single row
+  gap: 20px; // Add space between the cards
+}

@@ -1,0 +1,184 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap");
+
+.dashboard-page {
+  margin: 0;
+  padding: 0;
+  padding-top: -0.1;
+  overflow: hidden;
+
+  .page-title {
+    font-size: 1.6em;
+    color: rgba(0, 0, 0, 0.56);
+    margin: 0;
+    padding-left: 1.8em;
+    font-family: "Montserrat", sans-serif;
+    font-weight: normal;
+  }
+
+  .page-subtitle {
+    font-size: 1em;
+    color: rgba(0, 0, 0, 0.56);
+    margin: 0;
+    padding-left: 1.8em;
+    font-family: "Montserrat", sans-serif;
+    font-weight: normal;
+    margin-left: 1.3em;
+  }
+
+  .search-bar-container {
+    padding: 1em 1.6em;
+    font-family: "Montserrat", sans-serif;
+  }
+
+  .announcement-cards-container {
+    display: flex; // Use Flexbox for horizontal layout
+    flex-wrap: nowrap; // Prevent wrapping to keep cards in a single row
+    overflow-x: auto; // Enable horizontal scrolling
+    gap: 20px; // Add space between the cards
+    padding: 1em; // Optional padding for the container
+  }
+
+  // Modal Styles
+  .modal-custom-header-admin-program {
+    background-color: #f9f9f9; // Light background for contrast
+    padding: 20px;
+
+    .main-header {
+      font-size: 1.8em;
+      color: #333; // Dark text for visibility
+      margin-bottom: 10px;
+    }
+
+    .sub-header {
+      font-size: 1.4em;
+      color: #666; // Slightly lighter text
+    }
+  }
+
+  .modalbody {
+    padding: 20px;
+    background-color: #ffffff;
+
+    .modal-announcementt {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      font-family: "Montserrat", sans-serif;
+
+      label {
+        display: block; // Ensure labels are on their own line
+        margin-bottom: 5px; // Space between label and input
+        color: black; // Dark color for visibility
+        font-weight: 600; // Bold labels for emphasis
+        font-size: 0.8em;
+        font-family: "Montserrat", sans-serif; // Consistent font
+      }
+    }
+
+    .dropdown-container {
+      width: 100%; // Adjust width for dropdown container
+      .dropdown-label {
+        color: black !important; // Use !important to override any conflicting styles
+      }
+      .dropdown-select {
+        width: 100%; // Full width for dropdown select
+        padding: 12px; // Padding for dropdown select
+        border-radius: 4px; // Rounded corners for dropdown select
+        border: 1px solid #ccc; // Light border for dropdown select
+        background-color: #fff; // White background for dropdown select
+        color: black; // Dark text color for dropdown select
+        font-size: 1em; // Font size for dropdown select
+      }
+    }
+
+    .error-message {
+      color: red; // Error message styling (if needed)
+      font-size: small;
+      margin-top: -10px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .student-info {
+    display: flex;
+    flex-direction: column; // Ensure content is displayed vertically
+
+    p {
+      margin: 0; // Remove default margins
+      line-height: 1.4; // Adjust spacing between lines
+      font-size: 14px; // Optional: Adjust font size if necessary
+      padding: 5px 0; // Add padding for space between text items
+
+      // Styles for the label part (Name:, Address:, etc.)
+      &::before {
+        content: attr(data-label); // Use the data-label attribute as a prefix
+        font-weight: bold;
+        margin-right: 5px; // Add space between label and actual data
+        display: inline-block;
+        width: 100px; // Adjust width based on label length
+      }
+    }
+  }
+}
+
+// Adjust Modal size
+:global(.modal-dialog) {
+  max-width: 800px !important;
+  width: 90% !important;
+}
+
+:global(.modal-content) {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.action-icons {
+  display: flex; // Use flexbox for centering
+  justify-content: center; // Center content horizontally
+  display: flex;
+  gap: 10px; // Space between the icons
+
+  .edit-icon,
+  .delete-icon {
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+
+    &:hover {
+      color: #007bff;
+    }
+  }
+}
+
+/*.announcement-cards-wrapper {
+  width: 70vw; // Set width to 80%
+  height: 60vh; // Set a fixed height for the wrapper
+  margin: 0 auto; // Center the container
+  padding: 0.5em; // Optional padding for aesthetics
+  background-color: #d6c4c4; // Optional background color for visibility
+  overflow-x: auto; // Enable horizontal scrolling
+}
+.announcement-cards-container {
+  padding-left: 4em;
+  padding-right: 2em;
+  display: flex; // Use Flexbox for horizontal layout
+  flex-wrap: nowrap; // Prevent wrapping to keep cards in a single row
+  gap: 20px; // Add space between the cards
+  position: fixed;
+  padding: 0.5em; // Optional padding for the container
+}*/
+
+.announcement-cards-wrapper {
+  width: 100%; // Full width of the container
+  height: 60vh; // Set a fixed height for the wrapper
+  margin: 0 auto; // Center the container
+  padding: 0.5em; // Optional padding for aesthetics
+  background-color: #d6c4c4; // Optional background color for visibility
+  overflow-x: auto; // Enable horizontal scrolling
+}
+
+.announcement-cards-container {
+  display: flex; // Use Flexbox for horizontal layout
+  flex-wrap: nowrap; // Prevent wrapping to keep cards in a single row
+  gap: 20px; // Add space between the cards
+}

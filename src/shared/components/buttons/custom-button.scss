@@ -1,0 +1,26 @@
+.custom-button {
+  padding: 0.5em 2em;
+  border-radius: 14px;
+  font-size: 16px;
+  border: 1px solid #d3d3d3;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+
+  &.default {
+    background-color: transparent;
+    color: #6b6b6b;
+    border: 1px solid #d3d3d3;
+    box-shadow: none;
+  }
+
+  &.active {
+    background-color: #238ba2;
+    color: white;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
