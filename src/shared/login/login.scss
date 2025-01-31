@@ -69,3 +69,16 @@ body {
   display: flex;
   justify-content: center;
 }
+
+// For input field errors
+.error-message {
+  color: #ff0000; // Red color for errors
+  margin-bottom: 10px;
+}
+
+// In your InputField component styles
+.input-error {
+  color: #ff0000;
+  font-size: 0.875rem;
+  margin-top: 4px;
+}
