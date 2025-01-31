@@ -13,6 +13,8 @@ interface ModalProps {
     | "medium"
     | "medium2"
     | "medlarge"
+    | "mediumlarge"
+    | "coordinatorlarge"
     | "large"
     | "extralarge";
   singleButton?: boolean;

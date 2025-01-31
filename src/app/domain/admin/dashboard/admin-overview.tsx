@@ -31,14 +31,14 @@ const Overview: React.FC = () => {
   useEffect(() => {
     const fetchTotalCoordinators = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/count-coordinators");
-        setTotalCoordinators(response.data.count);  // Set the count of coordinators
+        const response = await axios.get(
+          "http://localhost:5000/api/count-coordinators"
+        );
+        setTotalCoordinators(response.data.count); // Set the count of coordinators
       } catch (error) {
         console.error("Error fetching total coordinators:", error);
       }
     };
-    
-    
 
     const fetchTotalStudents = async () => {
       try {
@@ -53,13 +53,14 @@ const Overview: React.FC = () => {
 
     const fetchTotalPrograms = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/count-programs"); // Adjust the port to match your backend port
+        const response = await axios.get(
+          "http://localhost:5000/api/count-programs"
+        ); // Adjust the port to match your backend port
         setTotalPrograms(response.data.count); // Set the count in your state
       } catch (error) {
         console.error("Error fetching total programs:", error);
       }
     };
-    
 
     const fetchTotalCompanies = async () => {
       try {
@@ -114,13 +115,12 @@ const Overview: React.FC = () => {
             icon={<FaUsers />}
             className="total-coordinator"
           />
-            <Card
+          <Card
             label="Total Programs"
             value={totalPrograms !== null ? totalPrograms.toString() : "0"}
             icon={<FaBriefcase />}
             className="total-program"
           />
-
         </div>
 
         <div className="card-column">

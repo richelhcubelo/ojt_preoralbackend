@@ -47,24 +47,30 @@ const Program: React.FC = () => {
   // Save school year
   const handleYearModalSave = async () => {
     const adminId = localStorage.getItem("admin_id");
-  
+
     if (!schoolyear) {
       setErrorMessage("School year is required.");
       setIsErrorModalOpen(true);
       return;
     }
-  
+
     const newSchoolYear = {
       admin_id: adminId,
       school_yr: schoolyear,
     };
-  
+
     try {
-      const response = await axios.post("http://localhost:5000/api/add-schoolyear", newSchoolYear);
+      const response = await axios.post(
+        "http://localhost:5000/api/add-schoolyear",
+        newSchoolYear
+      );
       setSchoolyear("");
       setShowYModal(false); // Close modal after saving
     } catch (error: any) {
-      console.error("Error saving school year:", error.response?.data || error.message);
+      console.error(
+        "Error saving school year:",
+        error.response?.data || error.message
+      );
       setErrorMessage("Failed to save school year. Please try again.");
       setIsErrorModalOpen(true);
     }
@@ -96,13 +102,19 @@ const Program: React.FC = () => {
     };
 
     try {
-      const response = await axios.post("http://localhost:5000/api/add-program", newProgram);
+      const response = await axios.post(
+        "http://localhost:5000/api/add-program",
+        newProgram
+      );
 
       // Add new program to the state and close modal
       setPrograms([...programs, response.data]);
       setShowModal(false); // Close modal after saving
     } catch (error: any) {
-      console.error("Error saving program:", error.response?.data || error.message);
+      console.error(
+        "Error saving program:",
+        error.response?.data || error.message
+      );
       setErrorMessage("Failed to save program. Please try again.");
       setIsErrorModalOpen(true);
     }
@@ -186,6 +198,7 @@ const Program: React.FC = () => {
         title="Register New Program"
         onCancel={handleModalCancel}
         onConfirm={handleModalSave}
+        size="medium2"
         cancelButtonText="Cancel"
         confirmButtonText="Add"
       >
@@ -205,9 +218,9 @@ const Program: React.FC = () => {
               value={program}
               onChange={(e) => handleInputChange(e, "program")}
             />
-            <div className="description-modal">
-              <label htmlFor="description">Description</label>
-            </div>
+
+            <label htmlFor="description">Description</label>
+
             <NameInputField
               type="text"
               id="description"
@@ -244,8 +257,8 @@ const Program: React.FC = () => {
         </div>
 
         <div className="modal-body">
-          <div className="modal-program">
-            <label htmlFor="schoolyear">Add School Year</label>
+          <div className="modal-sy">
+            <label htmlFor="schoolyear">School Year</label>
             <NameInputField
               type="text"
               id="schoolyear"

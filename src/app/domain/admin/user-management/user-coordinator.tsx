@@ -14,12 +14,18 @@ import axios from "axios";
 
 const Coordinator: React.FC = () => {
   const [programOptions, setProgramOptions] = useState([]);
+  const [genderOptions, setGenderOptions] = useState([
+    { value: "male", label: "Male" },
+    { value: "female", label: "Female" },
+  ]);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [currentModal, setCurrentModal] = useState<string>("details");
   const [firstName, setFirstName] = useState<string>("");
+  const [middleName, setMiddleName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [contact, setContact] = useState<string>("");
   const [program, setProgram] = useState("");
+  const [gender, setGender] = useState("");
   const [email, setEmail] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -67,6 +73,26 @@ const Coordinator: React.FC = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const fetchGenderData = async () => {
+      try {
+        const [genderRes] = await Promise.all([
+          axios.get("http://localhost:5000/api/gender"), // Replace with your actual API endpoint
+        ]);
+        setGenderOptions(
+          genderRes.data.map((g) => ({
+            value: g.gender_id, // Replace with your actual gender ID property
+            label: g.gender_name, // Replace with your actual gender name property
+          }))
+        );
+      } catch (error) {
+        console.error("Error fetching gender data:", error);
+      }
+    };
+
+    fetchGenderData();
+  }, []);
+
   const openModal = () => {
     setShowModal(true);
   };
@@ -97,21 +123,20 @@ const Coordinator: React.FC = () => {
   };
 
   const handleModalSave = () => {
-    if (currentModal === "details") {
-      if (!firstName || !lastName || !contact) {
-        setErrorMessage("Please fill in all required coordinator details.");
-        setIsErrorModalOpen(true);
-        return;
-      }
-      setCurrentModal("credentials");
-    } else if (currentModal === "credentials") {
-      if (!email || !username || !password) {
-        setErrorMessage("Please fill in all required credentials.");
-        setIsErrorModalOpen(true);
-        return;
-      }
-      setCurrentModal("confirmation");
+    if (
+      !firstName ||
+      !middleName ||
+      !lastName ||
+      !contact ||
+      !email ||
+      !username ||
+      !password
+    ) {
+      setErrorMessage("Please fill in all required fields.");
+      setIsErrorModalOpen(true);
+      return;
     }
+    setCurrentModal("confirmation");
   };
 
   const handleInputChange = (
@@ -122,6 +147,9 @@ const Coordinator: React.FC = () => {
     switch (field) {
       case "firstName":
         setFirstName(value);
+        break;
+      case "middleName":
+        setMiddleName(value);
         break;
       case "lastName":
         setLastName(value);
@@ -149,9 +177,11 @@ const Coordinator: React.FC = () => {
 
   const resetForm = () => {
     setFirstName("");
+    setMiddleName("");
     setLastName("");
     setContact("");
     setProgram("");
+    setGender("");
     setEmail("");
     setUsername("");
     setPassword("");
@@ -160,6 +190,7 @@ const Coordinator: React.FC = () => {
   const handleConfirmSave = async () => {
     if (
       !firstName ||
+      !middleName ||
       !lastName ||
       !email ||
       !username ||
@@ -174,9 +205,11 @@ const Coordinator: React.FC = () => {
     const coordinatorData = {
       admin_id: localStorage.getItem("admin_id"),
       coordinator_firstname: firstName,
+      coordinator_middlename: middleName,
       coordinator_lastname: lastName,
       coordinator_contact: contact,
       program_id: program,
+      gender_id: gender,
       coordinator_email: email,
       coordinator_user: username,
       coordinator_pass: password,
@@ -298,12 +331,14 @@ const Coordinator: React.FC = () => {
         columns={[
           { header: "ID", key: "coordinator_id" },
           { header: "First Name", key: "coordinator_firstname" },
+          { header: "Middle Name", key: "coordinator_middlename" },
           { header: "Last Name", key: "coordinator_lastname" },
           { header: "Contact Number", key: "coordinator_contact" },
+          { header: "Gender", key: "gender_name" },
           { header: "Program", key: "program_name" },
           { header: "Email", key: "coordinator_email" },
-          { header: "Username", key: "coordinator_user" },
-          { header: "Password", key: "coordinator_pass" },
+          //{ header: "Username", key: "coordinator_user" },
+          // { header: "Password", key: "coordinator_pass" },
 
           {
             header: "Action",
@@ -327,7 +362,7 @@ const Coordinator: React.FC = () => {
         message=""
         onCancel={handleModalCancel}
         onConfirm={handleModalSave}
-        size="large"
+        size="coordinatorlarge"
         cancelButtonText="Cancel"
         confirmButtonText="Next"
       >
@@ -347,6 +382,13 @@ const Coordinator: React.FC = () => {
                 value={firstName}
                 onChange={(e) => handleInputChange(e, "firstName")}
               />
+              <label htmlFor="middleName">Mid Name</label>
+              <NameInputField
+                type="text"
+                id="middleName"
+                value={middleName}
+                onChange={(e) => handleInputChange(e, "middleName")}
+              />
               <label htmlFor="lastName">Last Name</label>
               <NameInputField
                 type="text"
@@ -357,16 +399,31 @@ const Coordinator: React.FC = () => {
             </div>
 
             <div className="modal-body-right">
-              <div className="left-components">
-                <label htmlFor="contact">Contact</label>
+              <div className="contactnumber">
+                <label htmlFor="contact">Contact Number</label>
                 <NameInputField
                   type="text"
                   id="contact"
                   value={contact}
-                  className="contactnum"
+                  className="contactnumber"
                   onChange={(e) => handleInputChange(e, "contact")}
                 />
               </div>
+
+              <div className="gender-dropdown">
+                <label htmlFor="gender">Gender</label>
+                <Dropdown
+                  options={genderOptions.map((g) => g.label)}
+                  value={gender} // Set the program_name as the value
+                  onChange={(selectedLabel) => {
+                    const selectedGender = programOptions.find(
+                      (g) => g.label === selectedLabel
+                    );
+                    setProgram(selectedGender ? selectedGender.value : ""); // Set the program_id when a program is selected
+                  }}
+                />
+              </div>
+
               <div className="dropdowns">
                 <label htmlFor="program">Program</label>
                 <Dropdown
@@ -381,67 +438,40 @@ const Coordinator: React.FC = () => {
                 />
               </div>
             </div>
-          </div>
-        </div>
-      </Modal>
 
-      <Modal
-        show={showModal && currentModal === "credentials"}
-        title=""
-        message=""
-        onCancel={handleReturnToRegister}
-        onConfirm={handleModalSave}
-        size="medium2"
-        cancelButtonText="Cancel"
-        confirmButtonText="Save"
-      >
-        <div className="modal-custom-content">
-          <div className="modal-custom-header-admin-coordinator">
-            <div className="header-left">
-              <h2 className="main-header">Register New Coordinator</h2>
-              <h3 className="sub-header">Credentials</h3>
-            </div>
-          </div>
-          <div className="credentials-modal-container">
-            <div className="credentials-modal-body">
-              <div className="name-input-field">
+            <div className="modal-body-third-column">
+              <div className="email">
                 <label htmlFor="email">Email</label>
-                <div className="name-input-field-wrapper">
-                  <NameInputField
-                    type="text"
-                    id="email"
-                    value={email}
-                    onChange={(e) => handleInputChange(e, "email")}
-                  />
-                  <FontAwesomeIcon icon={faEnvelope} className="iicon" />
-                </div>
-                <label htmlFor="username">Username</label>
-                <div className="name-input-field-wrapper">
-                  <NameInputField
-                    type="text"
-                    id="username"
-                    value={username}
-                    onChange={(e) => handleInputChange(e, "username")}
-                  />
-                  <FaUser className="iiicon" />
-                </div>
+                <NameInputField
+                  type="text"
+                  id="email"
+                  value={email}
+                  onChange={(e) => handleInputChange(e, "email")}
+                />
               </div>
-              <div className="name-input-field">
+              <div className="username">
+                <label htmlFor="username">Username</label>
+                <NameInputField
+                  type="text"
+                  id="username"
+                  value={username}
+                  onChange={(e) => handleInputChange(e, "username")}
+                />
+              </div>
+              <div className="password">
                 <label htmlFor="password">Password</label>
-                <div className="name-input-field-wrapper">
-                  <NameInputField
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    value={password}
-                    onChange={(e) => handleInputChange(e, "password")}
-                  />
-                  <FaLock className="icon" />
-                  <div
-                    className="password-toggle"
-                    onClick={togglePasswordVisibility}
-                  >
-                    {showPassword ? <FaEye /> : <FaEyeSlash />}
-                  </div>
+                <NameInputField
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  value={password}
+                  onChange={(e) => handleInputChange(e, "password")}
+                />
+
+                <div
+                  className="password-toggle"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? <FaEye /> : <FaEyeSlash />}
                 </div>
               </div>
             </div>

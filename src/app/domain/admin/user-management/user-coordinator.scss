@@ -116,7 +116,6 @@
   display: flex;
   justify-content: space-between;
   padding: 25px;
-
   margin-top: 1.5em;
 }
 
@@ -124,9 +123,10 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin: 15px;
+  gap: 4px;
+  margin: 10px;
   color: #333;
+  width: 50%;
 
   label {
     font-family: "Montserrat", sans-serif;
@@ -137,7 +137,7 @@
 
   .name-input-field {
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     margin-right: 2em;
     width: 300px; // Increased width
 
@@ -179,31 +179,198 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin: 10px;
+  gap: 2px;
+  margin: 5px;
   color: #333;
-  margin-left: 5em;
+  margin-left: -3.5em; //space between column
 
   label {
     font-family: "Montserrat", sans-serif;
     font-size: 14px;
   }
+
+  .name-input-field {
+    position: relative;
+    margin-bottom: 20px;
+    margin-right: 2em;
+    width: 300px; // Increased width
+
+    label {
+      display: block;
+      font-family: "Montserrat", sans-serif;
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    input {
+      padding: 10px 35px 10px 10px; // Padding to accommodate icon
+      font-family: "Montserrat", sans-serif;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+      height: 30px;
+      color: #333;
+
+      &:focus {
+        border-color: #575c5e;
+      }
+    }
+
+    .icon {
+      position: absolute;
+      right: 10px; // Position the icon inside the input field
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+      font-size: 16px;
+    }
+  }
+
+  .dropdowns {
+    padding-left: 1px;
+    display: flex;
+    flex-direction: column;
+    width: 260px;
+
+    label {
+      padding-right: 80px;
+      display: flex;
+      margin-left: 8px;
+      margin-left: 5px;
+      margin-bottom: -13px;
+      padding-top: 9px;
+    }
+  }
+  .gender-dropdown {
+    padding-left: 1px;
+    display: flex;
+    flex-direction: column;
+    width: 260px;
+
+    label {
+      padding-right: 80px;
+      display: flex;
+      margin-left: 5px;
+      margin-bottom: -10px;
+      padding-top: 6px;
+    }
+  }
+  .contactnumber {
+    padding-left: 1px;
+    gap: 6px; //adjust between field and contact number
+    display: flex;
+    flex-direction: column;
+
+    label {
+      padding-right: 80px;
+      display: flex;
+      margin-left: 4px;
+      margin-top: 4px;
+    }
+    .contactnum {
+      width: 150px;
+    }
+  }
 }
 
-.left-components {
-  padding-left: 10px;
-  margin: 5px;
-  gap: 12px;
+.modal-body-third-column {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 4px;
+  margin: 10px;
+  color: #333;
+  width: 50%;
+  margin-left: -6em;
 
   label {
-    padding-right: 80px;
-    display: flex;
-    margin-left: 4px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    color: #333;
+    margin-right: 17em;
   }
-  .contactnum {
-    width: 200px;
+
+  .name-input-field {
+    position: relative;
+    margin-bottom: 20px;
+    margin-right: 2em;
+    width: 300px; // Increased width
+
+    label {
+      display: block;
+      font-family: "Montserrat", sans-serif;
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    input {
+      padding: 10px 35px 10px 10px; // Padding to accommodate icon
+      font-family: "Montserrat", sans-serif;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+      height: 30px;
+      color: #333;
+
+      &:focus {
+        border-color: #575c5e;
+      }
+    }
+  }
+
+  .email {
+    padding-left: 1px;
+    gap: 5px; //adjust between field and contact number
+    display: flex;
+    flex-direction: column;
+
+    label {
+      padding-right: 80px;
+      display: flex;
+      margin-left: 4px;
+      margin-top: 0px;
+    }
+  }
+  .username {
+    padding-left: 1px;
+    gap: 6px; //adjust between field and contact number
+    display: flex;
+    flex-direction: column;
+
+    label {
+      padding-right: 80px;
+      display: flex;
+      margin-left: 4px;
+      margin-top: 6px;
+    }
+  }
+
+  .password {
+    padding-left: 1px;
+    gap: 6px; //adjust between field and contact number
+    display: flex;
+    flex-direction: column;
+
+    label {
+      padding-right: 80px;
+      display: flex;
+      margin-left: 4px;
+      margin-top: -2px;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 25em; /* Positioning from the right */
+      top: 66.5%; /* Center vertically */
+      transform: translateY(-50%); /* Adjust for centering */
+      background: none; /* No background */
+      border: none; /* No border */
+      cursor: pointer; /* Pointer cursor on hover */
+    }
   }
 }
 

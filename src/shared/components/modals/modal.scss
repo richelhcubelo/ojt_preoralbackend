@@ -40,10 +40,21 @@
   height: 500px; /* Adjust max-width for large modal */
 }
 
+.modal-content.coordinatorlarge {
+  max-width: 100%;
+  width: 835px;
+  height: 520px; /* Adjust max-width for large modal */
+}
+
 .modal-content.medlarge {
   max-width: 100%;
   width: 500px;
   height: 550px; /* Adjust max-width for large modal */
+}
+.modal-content.mediumlarge {
+  max-width: 100%;
+  width: 700px;
+  height: 450px; /* Adjust max-width for large modal */
 }
 
 .modal-content.medium {
@@ -54,8 +65,8 @@
 }
 .modal-content.medium2 {
   max-width: 100%;
-  width: 400px;
-  height: 520px;
+  width: 330px;
+  height: 540px;
   /* Adjust dimensions for medium modal */
 }
 
