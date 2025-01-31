@@ -25,7 +25,6 @@ const LoginForm: React.FC = () => {
   const [, setShowValidationError] = useState(false);
   const [, setValidationErrorMessage] = useState("");
 
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
@@ -42,48 +41,45 @@ const LoginForm: React.FC = () => {
 
   const handleButtonClick = async () => {
     try {
-        const response = await fetch("http://localhost:5000/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(loginData),
-        });
+      const response = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      });
 
-        if (!response.ok) {
-            const result = await response.json();
-            throw new Error(result.message || 'Login failed');
-        }
-
+      if (!response.ok) {
         const result = await response.json();
+        throw new Error(result.message || "Login failed");
+      }
 
-        // Handle user based on role
-        if (result.role === "admin") {
-            localStorage.setItem("admin_id", result.user.admin_id); // Save the admin_id
-            window.location.href = "/dashboard/overview";
-        } else if (result.role === "coordinator") {
-            localStorage.setItem("coordinator_id", result.user.coordinator_id); // Save the coordinator_id
-            window.location.href = "/cddashboard/coordinator-dashboard";
-        } else if (result.role === "student") {
-            localStorage.setItem("student_id", result.user.student_id); // Save the student_id
-            window.location.href = "/student/dashboard"; // You can define the student route here
-        } else {
-            setErrors({
-                username: "Invalid credentials",
-                password: "Invalid credentials",
-            });
-        }
+      const result = await response.json();
+
+      // Handle user based on role
+      if (result.role === "admin") {
+        localStorage.setItem("admin_id", result.user.admin_id); // Save the admin_id
+        window.location.href = "/dashboard/overview";
+      } else if (result.role === "coordinator") {
+        localStorage.setItem("coordinator_id", result.user.coordinator_id); // Save the coordinator_id
+        window.location.href = "/cddashboard/coordinator-dashboard";
+      } else if (result.role === "student") {
+        localStorage.setItem("student_id", result.user.student_id); // Save the student_id
+        window.location.href = "/student/dashboard"; // You can define the student route here
+      } else {
+        setErrors({
+          username: "Invalid credentials",
+          password: "Invalid credentials",
+        });
+      }
     } catch (error) {
-        console.error("Error during login:", error.message);
+      console.error("Error during login:", error.message);
     }
-};
-
-
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -132,10 +128,12 @@ const LoginForm: React.FC = () => {
             />
           </div>
         </div>
-        <PrimaryButton
-          buttonText="Login"
-          handleButtonClick={handleButtonClick}
-        />
+        <div className="loginnisya">
+          <PrimaryButton
+            buttonText="Login"
+            handleButtonClick={handleButtonClick}
+          />
+        </div>
       </div>
     </div>
   );

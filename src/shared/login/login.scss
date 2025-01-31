@@ -58,11 +58,17 @@ body {
 
 .input-field {
   width: 100%;
+  margin-top: -2px; /*space between input field name and inout field*/
   margin-bottom: 20px;
   font-family: "Montserrat", sans-serif;
   font-weight: normal; /* Changed to normal for better readability */
   font-size: 15px;
   color: rgba(0, 0, 0, 0.56);
+}
+
+.loginnisya {
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .button-container {

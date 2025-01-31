@@ -13,7 +13,8 @@
   font-weight: 100;
   font-size: 17px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
+  // margin-top: 15px; //space above login
+  // margin-bottom: 8px; //space below login button
   &:hover {
     background: linear-gradient(to bottom, #0b4f5d 20%, #0b4f5d 82%);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
