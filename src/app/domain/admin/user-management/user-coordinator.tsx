@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./user-coordinator.scss";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import SearchBar from "../../../../shared/components/searchbar/searchbar"; // Adjust the path as needed
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,10 +14,6 @@ import axios from "axios";
 
 const Coordinator: React.FC = () => {
   const [programOptions, setProgramOptions] = useState([]);
-  const [genderOptions, setGenderOptions] = useState([
-    { value: "male", label: "Male" },
-    { value: "female", label: "Female" },
-  ]);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [currentModal, setCurrentModal] = useState<string>("details");
   const [firstName, setFirstName] = useState<string>("");
@@ -25,7 +21,7 @@ const Coordinator: React.FC = () => {
   const [lastName, setLastName] = useState<string>("");
   const [contact, setContact] = useState<string>("");
   const [program, setProgram] = useState("");
-  const [gender, setGender] = useState("");
+  const [sex, setSex] = useState("");
   const [email, setEmail] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -33,6 +29,7 @@ const Coordinator: React.FC = () => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [coordinators, setCoordinators] = useState<any[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [isEdit, setIsEdit] = useState<boolean>(false); // New state to check edit mode
   const [currentCoordinatorId, setCurrentCoordinatorId] = useState<
     number | null
@@ -73,26 +70,6 @@ const Coordinator: React.FC = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const fetchGenderData = async () => {
-      try {
-        const [genderRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/gender"), // Replace with your actual API endpoint
-        ]);
-        setGenderOptions(
-          genderRes.data.map((g) => ({
-            value: g.gender_id, // Replace with your actual gender ID property
-            label: g.gender_name, // Replace with your actual gender name property
-          }))
-        );
-      } catch (error) {
-        console.error("Error fetching gender data:", error);
-      }
-    };
-
-    fetchGenderData();
-  }, []);
-
   const openModal = () => {
     setShowModal(true);
   };
@@ -101,6 +78,19 @@ const Coordinator: React.FC = () => {
     setShowModal(false);
     resetForm();
   };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
+  const filteredCoordinators = coordinators.filter((coordinator) => {
+    return (
+      coordinator.coordinator_firstname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      coordinator.coordinator_midname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      coordinator.coordinator_lastname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      coordinator.coordinator_email.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
 
   const handleAddButtonClick = () => {
     openModal();
@@ -117,22 +107,29 @@ const Coordinator: React.FC = () => {
     }
   };
 
-  // Handle return to "details" modal step
-  const handleReturnToRegister = () => {
-    setCurrentModal("details"); // Go back to the first step of the modal
-  };
-
   const handleModalSave = () => {
     if (
       !firstName ||
       !middleName ||
       !lastName ||
       !contact ||
+      !sex ||
       !email ||
       !username ||
       !password
     ) {
       setErrorMessage("Please fill in all required fields.");
+      setIsErrorModalOpen(true);
+      return;
+    }
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      setErrorMessage("Invalid email format.");
+      setIsErrorModalOpen(true);
+      return;
+    }
+    if (contact.length !== 11) {
+      setErrorMessage("Contact number must be exactly 11 digits.");
       setIsErrorModalOpen(true);
       return;
     }
@@ -144,28 +141,54 @@ const Coordinator: React.FC = () => {
     field: string
   ) => {
     const value = e.target.value;
+  
     switch (field) {
       case "firstName":
-        setFirstName(value);
+        // Validate first name (only letters and spaces allowed)
+        if (/^[a-zA-Z\s]*$/.test(value)) {
+          setFirstName(value);
+        }
         break;
+  
       case "middleName":
-        setMiddleName(value);
+        // Validate middle name (only letters and spaces allowed)
+        if (/^[a-zA-Z\s]*$/.test(value)) {
+          setMiddleName(value);
+        }
         break;
+  
       case "lastName":
-        setLastName(value);
+        // Validate last name (only letters and spaces allowed)
+        if (/^[a-zA-Z\s]*$/.test(value)) {
+          setLastName(value);
+        }
         break;
+  
       case "contact":
-        setContact(value);
+        // Validate contact number (only digits allowed, max 11 digits)
+        if (/^\d*$/.test(value) && value.length <= 11) {
+          setContact(value);
+        }
         break;
-      case "email":
-        setEmail(value);
-        break;
+  
+        case "email":
+          setEmail(value); // Allow any input, validation happens on save
+          break;
+  
       case "username":
-        setUsername(value);
+        // Validate username (only alphanumeric and underscore allowed)
+        if (/^[a-zA-Z0-9_]*$/.test(value)) {
+          setUsername(value);
+        }
         break;
+  
       case "password":
-        setPassword(value);
+        // Validate password (alphanumeric and some special characters allowed)
+        if (/^[a-zA-Z0-9!@#$%^&*()]*$/.test(value)) {
+          setPassword(value);
+        }
         break;
+  
       default:
         break;
     }
@@ -181,7 +204,7 @@ const Coordinator: React.FC = () => {
     setLastName("");
     setContact("");
     setProgram("");
-    setGender("");
+    setSex("");
     setEmail("");
     setUsername("");
     setPassword("");
@@ -201,15 +224,16 @@ const Coordinator: React.FC = () => {
       setIsErrorModalOpen(true);
       return;
     }
-
+   
+    
     const coordinatorData = {
       admin_id: localStorage.getItem("admin_id"),
       coordinator_firstname: firstName,
-      coordinator_middlename: middleName,
+      coordinator_midname: middleName,
       coordinator_lastname: lastName,
       coordinator_contact: contact,
+      coordinator_sex: sex,
       program_id: program,
-      gender_id: gender,
       coordinator_email: email,
       coordinator_user: username,
       coordinator_pass: password,
@@ -271,8 +295,10 @@ const Coordinator: React.FC = () => {
       setIsEdit(true);
       setCurrentCoordinatorId(id);
       setFirstName(selectedCoordinator.coordinator_firstname);
+      setMiddleName(selectedCoordinator.coordinator_midname);
       setLastName(selectedCoordinator.coordinator_lastname);
       setContact(selectedCoordinator.coordinator_contact);
+      setSex(selectedCoordinator.coordinator_sex);
       setEmail(selectedCoordinator.coordinator_email);
       setUsername(selectedCoordinator.coordinator_user);
       setPassword(selectedCoordinator.coordinator_pass);
@@ -314,7 +340,7 @@ const Coordinator: React.FC = () => {
         <div className="search-bar-container">
           <SearchBar
             placeholder="Search"
-            onSearch={(query) => console.log("Search query:", query)}
+            onSearch={handleSearch}
           />
         </div>
 
@@ -331,10 +357,10 @@ const Coordinator: React.FC = () => {
         columns={[
           { header: "ID", key: "coordinator_id" },
           { header: "First Name", key: "coordinator_firstname" },
-          { header: "Middle Name", key: "coordinator_middlename" },
+          { header: "Middle Name", key: "coordinator_midname" },
           { header: "Last Name", key: "coordinator_lastname" },
           { header: "Contact Number", key: "coordinator_contact" },
-          { header: "Gender", key: "gender_name" },
+          { header: "Gender", key: "coordinator_sex" },
           { header: "Program", key: "program_name" },
           { header: "Email", key: "coordinator_email" },
           //{ header: "Username", key: "coordinator_user" },
@@ -353,7 +379,7 @@ const Coordinator: React.FC = () => {
             ),
           },
         ]}
-        data={coordinators}
+        data={filteredCoordinators}
       />
 
       <Modal
@@ -413,15 +439,10 @@ const Coordinator: React.FC = () => {
               <div className="gender-dropdown">
                 <label htmlFor="gender">Gender</label>
                 <Dropdown
-                  options={genderOptions.map((g) => g.label)}
-                  value={gender} // Set the program_name as the value
-                  onChange={(selectedLabel) => {
-                    const selectedGender = programOptions.find(
-                      (g) => g.label === selectedLabel
-                    );
-                    setProgram(selectedGender ? selectedGender.value : ""); // Set the program_id when a program is selected
-                  }}
-                />
+                options={["Male", "Female", "Other"]}
+                value={sex}
+                onChange={(value) => setSex(value)}
+              />
               </div>
 
               <div className="dropdowns">
@@ -505,6 +526,31 @@ const Coordinator: React.FC = () => {
         </div>
       </Modal>
 
+      <Modal
+        show={isErrorModalOpen}
+        title="Error"
+        message={errorMessage}
+        onCancel={() => setIsErrorModalOpen(false)}
+        size="small"
+        singleButton={true}
+      >
+        <div className="modal-custom-content">
+          <div className="modal-custom-header">
+            <div className="header-left">
+              <h2 className="main-header">
+                <FontAwesomeIcon
+                  icon={faExclamationTriangle}
+                  className="error-icon"
+                />
+                Error
+              </h2>
+              <h3 className="sub-header">
+                {errorMessage}
+              </h3>
+            </div>
+          </div>
+        </div>
+      </Modal>
       {/*<Modal
         show={isErrorModalOpen}
         title="Error"
