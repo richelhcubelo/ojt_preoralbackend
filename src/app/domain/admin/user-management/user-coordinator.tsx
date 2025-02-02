@@ -364,7 +364,7 @@ const Coordinator: React.FC = () => {
         onConfirm={handleModalSave}
         size="coordinatorlarge"
         cancelButtonText="Cancel"
-        confirmButtonText="Next"
+        confirmButtonText="Save"
       >
         <div className="modal-custom-content">
           <div className="modal-custom-header-admin-coordinator">
@@ -400,7 +400,7 @@ const Coordinator: React.FC = () => {
 
             <div className="modal-body-right">
               <div className="contactnumber">
-                <label htmlFor="contact">Contact Number</label>
+                <label htmlFor="contact">Contact #</label>
                 <NameInputField
                   type="text"
                   id="contact"
@@ -468,7 +468,7 @@ const Coordinator: React.FC = () => {
                 />
 
                 <div
-                  className="password-toggle"
+                  className="password-togglee"
                   onClick={togglePasswordVisibility}
                 >
                   {showPassword ? <FaEye /> : <FaEyeSlash />}

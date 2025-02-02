@@ -131,8 +131,9 @@
   label {
     font-family: "Montserrat", sans-serif;
     font-size: 14px;
+    font-weight: 500;
     color: #333;
-    margin-right: 17em;
+    margin-right: 17em; //field name sa first column
   }
 
   .name-input-field {
@@ -182,7 +183,7 @@
   gap: 2px;
   margin: 5px;
   color: #333;
-  margin-left: -3.5em; //space between column
+  margin-left: -3.2em; //space between column
 
   label {
     font-family: "Montserrat", sans-serif;
@@ -241,6 +242,7 @@
       margin-left: 5px;
       margin-bottom: -13px;
       padding-top: 9px;
+      font-weight: 500;
     }
   }
   .gender-dropdown {
@@ -255,6 +257,7 @@
       margin-left: 5px;
       margin-bottom: -10px;
       padding-top: 6px;
+      font-weight: 500;
     }
   }
   .contactnumber {
@@ -265,6 +268,7 @@
 
     label {
       padding-right: 80px;
+      font-weight: 500;
       display: flex;
       margin-left: 4px;
       margin-top: 4px;
@@ -290,6 +294,7 @@
     font-size: 14px;
     color: #333;
     margin-right: 17em;
+    font-weight: 500;
   }
 
   .name-input-field {
@@ -362,9 +367,9 @@
       margin-top: -2px;
     }
 
-    .password-toggle {
+    .password-togglee {
       position: absolute;
-      right: 25em; /* Positioning from the right */
+      right: 7em; /* Positioning from the right */
       top: 66.5%; /* Center vertically */
       transform: translateY(-50%); /* Adjust for centering */
       background: none; /* No background */

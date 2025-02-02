@@ -3,7 +3,12 @@ import axios from "axios";
 import "./cd-student.scss";
 import SearchBar from "../../../../shared/components/searchbar/searchbar";
 import DataTable from "../../../../shared/components/table/data-table";
-import { faEdit, faPlus, faEnvelope, faIdCard } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faPlus,
+  faEnvelope,
+  faIdCard,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PrimaryButton from "../../../../shared/components/buttons/primero-button";
 import Modal from "../../../../shared/components/modals/modal";
@@ -51,13 +56,22 @@ const CoordinatorStudent = () => {
       if (!coordinatorId) return;
 
       try {
-        const [studentsRes,  companiesRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/studentsni", { params: { coordinator_id: coordinatorId } }),
-          axios.get("http://localhost:5000/api/companynameni", { params: { coordinator_id: coordinatorId } }),
+        const [studentsRes, companiesRes] = await Promise.all([
+          axios.get("http://localhost:5000/api/studentsni", {
+            params: { coordinator_id: coordinatorId },
+          }),
+          axios.get("http://localhost:5000/api/companynameni", {
+            params: { coordinator_id: coordinatorId },
+          }),
         ]);
 
         setStudentData(studentsRes.data);
-        setCompanyOptions(companiesRes.data.map((c) => ({ value: c.company_id, label: c.company_name })));
+        setCompanyOptions(
+          companiesRes.data.map((c) => ({
+            value: c.company_id,
+            label: c.company_name,
+          }))
+        );
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -96,7 +110,10 @@ const CoordinatorStudent = () => {
       setCurrentModal(null);
       resetForm();
 
-      const updatedStudents = await axios.get("http://localhost:5000/api/studentsni", { params: { coordinator_id: coordinatorId } });
+      const updatedStudents = await axios.get(
+        "http://localhost:5000/api/studentsni",
+        { params: { coordinator_id: coordinatorId } }
+      );
       setStudentData(updatedStudents.data);
     } catch (error) {
       console.error("Error registering student:", error);
@@ -106,14 +123,29 @@ const CoordinatorStudent = () => {
   const handleInputChange = (e, field) => {
     const value = e.target.value;
     switch (field) {
-      case "name": setName(value); break;
-      case "address": setAddress(value); break;
-      case "contact": setContact(value); break;
-      case "sex": setSex(value); break;
-      case "studentId": setStudentId(value); break;
-      case "email": setEmail(value); break;
-      case "password": setPassword(value); break;
-      default: break;
+      case "name":
+        setName(value);
+        break;
+      case "address":
+        setAddress(value);
+        break;
+      case "contact":
+        setContact(value);
+        break;
+      case "sex":
+        setSex(value);
+        break;
+      case "studentId":
+        setStudentId(value);
+        break;
+      case "email":
+        setEmail(value);
+        break;
+      case "password":
+        setPassword(value);
+        break;
+      default:
+        break;
     }
   };
 
@@ -129,7 +161,7 @@ const CoordinatorStudent = () => {
     setPassword("");
   };
 
- const columns = [
+  const columns = [
     { header: "#", key: "student_id" },
     { header: "Student ID", key: "student_schoolid" },
     {
@@ -137,15 +169,23 @@ const CoordinatorStudent = () => {
       key: "studentInfo",
       render: (row) => (
         <div className="student-info">
-          <p><strong>Name:</strong> {row.student_name || "N/A"}</p>
-          <p><strong>Address:</strong> {row.student_address || "N/A"}</p>
-          <p><strong>Contact #:</strong> {row.student_contact || "N/A"}</p>
-          <p><strong>Sex:</strong> {row.student_sex || "N/A"}</p>
+          <p>
+            <strong>Name:</strong> {row.student_name || "N/A"}
+          </p>
+          <p>
+            <strong>Address:</strong> {row.student_address || "N/A"}
+          </p>
+          <p>
+            <strong>Contact #:</strong> {row.student_contact || "N/A"}
+          </p>
+          <p>
+            <strong>Sex:</strong> {row.student_sex || "N/A"}
+          </p>
         </div>
       ),
     },
     { header: "Company", key: "company_name" },
-    { header: "Mentor", key: "company_mentor" },
+    { header: "Email", key: "email" },
     { header: "Status", key: "student_status" },
     {
       header: "Action",
@@ -155,19 +195,20 @@ const CoordinatorStudent = () => {
           <FontAwesomeIcon
             icon={faEdit}
             className="edit-icon"
-            onClick={() => console.log("Edit student record with ID:", row.student_id)}
+            onClick={() =>
+              console.log("Edit student record with ID:", row.student_id)
+            }
           />
         </div>
       ),
     },
   ];
 
-
   return (
     <div className="dashboard-page">
       <h1 className="page-title">Student</h1>
       <h2 className="page-subtitle">Manage Student Attendance</h2>
-  
+
       <div className="controls-container">
         <div className="search-bar-container">
           <SearchBar
@@ -183,9 +224,9 @@ const CoordinatorStudent = () => {
           />
         </div>
       </div>
-  
+
       <DataTable columns={columns} data={studentData} />
-  
+
       {/* Modals */}
       {/* Registration Modal */}
       <Modal
@@ -194,9 +235,9 @@ const CoordinatorStudent = () => {
         message=""
         onCancel={handleModalCancel}
         onConfirm={handleModalRegister}
-        size="large"
+        size="coordinatorlarge"
         cancelButtonText="Cancel"
-        confirmButtonText="Next"
+        confirmButtonText="Save"
       >
         <div className="modal-custom-content">
           <div className="modal-custom-header-student">
@@ -206,16 +247,16 @@ const CoordinatorStudent = () => {
             </div>
           </div>
           <div className="modalbody">
-            <div className="left">
+            <div className="leftside">
               {/* Name Field */}
-              <label htmlFor="name">Name</label>
+              <label htmlFor="name">Fullname</label>
               <NameInputField
                 type="text"
                 id="name"
                 value={name}
                 onChange={(e) => handleInputChange(e, "name")}
               />
-  
+
               {/* Address Field */}
               <label htmlFor="address">Address</label>
               <NameInputField
@@ -224,7 +265,7 @@ const CoordinatorStudent = () => {
                 value={address}
                 onChange={(e) => handleInputChange(e, "address")}
               />
-  
+
               {/* Contact Number Field */}
               <label htmlFor="contact">Contact#</label>
               <NameInputField
@@ -233,31 +274,39 @@ const CoordinatorStudent = () => {
                 value={contact}
                 onChange={(e) => handleInputChange(e, "contact")}
               />
-
             </div>
-  
+
             {/* Right Side */}
             <div className="right">
-              <div className="left-component">
-                <div className="dropdowns">
-              {/* Sex Dropdown */}
-              <label htmlFor="sex">Sex</label>
-              <Dropdown
-                options={["Male", "Female", "Other"]}
-                value={sex}
-                onChange={(value) => setSex(value)}
-              />
-  
-                  {/* Company Dropdown */}
+              <div className="left-dropdowns">
+                <div className="sex-dropdown">
+                  {/* Sex Dropdown */}
+                  <label htmlFor="sex">Sex</label>
+                  <Dropdown
+                    options={["Male", "Female", "Other"]}
+                    value={sex}
+                    onChange={(value) => setSex(value)}
+                  />
+                </div>
+                {/* Company Dropdown */}
+                <div className="company-dropdown">
                   <label htmlFor="company">Company</label>
                   <Dropdown
                     options={companyOptions.map((c) => c.label)}
-                    value={companyOptions.find((c) => c.value === company)?.label || ""}
-                    onChange={(selectedLabel) =>
-                      setCompany(companyOptions.find((c) => c.label === selectedLabel)?.value || "")
+                    value={
+                      companyOptions.find((c) => c.value === company)?.label ||
+                      ""
                     }
-                  /> 
-                  {/* Status Dropdown */}
+                    onChange={(selectedLabel) =>
+                      setCompany(
+                        companyOptions.find((c) => c.label === selectedLabel)
+                          ?.value || ""
+                      )
+                    }
+                  />
+                </div>
+                {/* Status Dropdown */}
+                <div className="status-dropdown">
                   <label htmlFor="status">Status</label>
                   <Dropdown
                     options={["Active", "Inactive"]}
@@ -267,30 +316,8 @@ const CoordinatorStudent = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </Modal>
-  
-      {/* Credentials Modal */}
-      <Modal
-        show={showModal && currentModal === "credentials"}
-        title=""
-        message=""
-        onCancel={() => setCurrentModal(null)}
-        onConfirm={handleFinalRegistration}
-        size="medium2"
-        cancelButtonText="Back"
-        confirmButtonText="Register"
-      >
-        <div className="modal-custom-content">
-          <div className="modal-custom-header-admin-coordinator">
-            <div className="header-left">
-              <h2 className="main-header">Register New Student</h2>
-              <h3 className="sub-header">Credentials</h3>
-            </div>
-          </div>
-          <div className="credentials-modal-container">
-            <div className="credentials-modal-body">
+
+            <div className="third-column">
               <div className="name-input-field">
                 <label htmlFor="email">Email</label>
                 <div className="name-input-field-wrapper">
@@ -325,7 +352,10 @@ const CoordinatorStudent = () => {
                     onChange={(e) => handleInputChange(e, "password")}
                   />
                   <FaLock className="icon" />
-                  <div className="password-toggle" onClick={togglePasswordVisibility}>
+                  <div
+                    className="password-toggle"
+                    onClick={togglePasswordVisibility}
+                  >
                     {showPassword ? <FaEye /> : <FaEyeSlash />}
                   </div>
                 </div>
