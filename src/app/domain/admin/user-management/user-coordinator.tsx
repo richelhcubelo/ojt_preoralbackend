@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./user-coordinator.scss";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEnvelope,
+  faExclamationTriangle,
+} from "@fortawesome/free-solid-svg-icons";
 import SearchBar from "../../../../shared/components/searchbar/searchbar"; // Adjust the path as needed
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -79,6 +82,27 @@ const Coordinator: React.FC = () => {
     resetForm();
   };
 
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
+  const filteredCoordinators = coordinators.filter((coordinator) => {
+    return (
+      coordinator.coordinator_firstname
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
+      coordinator.coordinator_midname
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
+      coordinator.coordinator_lastname
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
+      coordinator.coordinator_email
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
+    );
+  });
+
   const handleAddButtonClick = () => {
     openModal();
     setCurrentModal("details");
@@ -128,6 +152,7 @@ const Coordinator: React.FC = () => {
     field: string
   ) => {
     const value = e.target.value;
+
     switch (field) {
       case "firstName":
         // Validate first name (only letters and spaces allowed)
@@ -135,39 +160,46 @@ const Coordinator: React.FC = () => {
           setFirstName(value);
         }
         break;
+
       case "middleName":
         // Validate middle name (only letters and spaces allowed)
         if (/^[a-zA-Z\s]*$/.test(value)) {
           setMiddleName(value);
         }
         break;
+
       case "lastName":
         // Validate last name (only letters and spaces allowed)
         if (/^[a-zA-Z\s]*$/.test(value)) {
           setLastName(value);
         }
         break;
+
       case "contact":
         // Validate contact number (only digits allowed, max 11 digits)
         if (/^\d*$/.test(value) && value.length <= 11) {
           setContact(value);
         }
         break;
+
       case "email":
-        setEmail(value);
+        setEmail(value); // Allow any input, validation happens on save
         break;
+
       case "username":
         // Validate username (only alphanumeric and underscore allowed)
         if (/^[a-zA-Z0-9_]*$/.test(value)) {
           setUsername(value);
         }
         break;
+
       case "password":
         // Validate password (alphanumeric and some special characters allowed)
         if (/^[a-zA-Z0-9!@#$%^&*()]*$/.test(value)) {
           setPassword(value);
         }
         break;
+
       default:
         break;
     }
@@ -316,10 +348,7 @@ const Coordinator: React.FC = () => {
 
       <div className="controls-container">
         <div className="search-bar-container">
-          <SearchBar
-            placeholder="Search"
-            onSearch={(query) => console.log("Search query:", query)}
-          />
+          <SearchBar placeholder="Search" onSearch={handleSearch} />
         </div>
 
         <div className="add-button-container">
@@ -417,19 +446,14 @@ const Coordinator: React.FC = () => {
               <div className="gender-dropdown">
                 <label htmlFor="gender">Gender</label>
                 <Dropdown
-                  options={genderOptions.map((g) => g.label)}
-                  value={gender} // Set the program_name as the value
-                  onChange={(selectedLabel) => {
-                    const selectedGender = programOptions.find(
-                      (g) => g.label === selectedLabel
-                    );
-                    setProgram(selectedGender ? selectedGender.value : ""); // Set the program_id when a program is selected
-                  }}
+                  options={["Male", "Female", "Other"]}
+                  value={sex}
+                  onChange={(value) => setSex(value)}
                 />
               </div>
 
               <div className="dropdowns">
-                <label htmlFor="program">Program</label>
+                <label htmlFor="program">Programs</label>
                 <Dropdown
                   options={programOptions.map((p) => p.label)}
                   value={program} // Set the program_name as the value
@@ -509,6 +533,29 @@ const Coordinator: React.FC = () => {
         </div>
       </Modal>
 
+      <Modal
+        show={isErrorModalOpen}
+        title="Error"
+        message={errorMessage}
+        onCancel={() => setIsErrorModalOpen(false)}
+        size="small"
+        singleButton={true}
+      >
+        <div className="modal-custom-content">
+          <div className="modal-custom-header">
+            <div className="header-left">
+              <h2 className="main-header">
+                <FontAwesomeIcon
+                  icon={faExclamationTriangle}
+                  className="error-icon"
+                />
+                Error
+              </h2>
+              <h3 className="sub-header">{errorMessage}</h3>
+            </div>
+          </div>
+        </div>
+      </Modal>
       {/*<Modal
         show={isErrorModalOpen}
         title="Error"
