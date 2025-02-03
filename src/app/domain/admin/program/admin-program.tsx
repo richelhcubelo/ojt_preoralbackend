@@ -20,6 +20,8 @@ const Program: React.FC = () => {
   const [requiredDuration, setRequiredDuration] = useState("");
   const [isErrorModalOpen, setIsErrorModalOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [editingProgram, setEditingProgram] = useState<any | null>(null);
 
   useEffect(() => {
     // Fetch existing programs from the server
@@ -36,6 +38,10 @@ const Program: React.FC = () => {
 
   // Open Add Program Modal
   const handleAddButtonClick = () => {
+    setEditingProgram(null); // Reset editing program
+    setProgram("");
+    setDescription("");
+    setRequiredDuration("");
     setShowModal(true);
   };
 
@@ -76,13 +82,17 @@ const Program: React.FC = () => {
     }
   };
 
-  // Save program
+  // Save or update program
   const handleModalSave = async () => {
     if (!program || !description || !requiredDuration) {
       setErrorMessage("Please fill in all required fields.");
       setIsErrorModalOpen(true);
     } else {
-      confirmAddProgram();
+      if (editingProgram) {
+        confirmUpdateProgram();
+      } else {
+        confirmAddProgram();
+      }
     }
   };
 
@@ -120,19 +130,57 @@ const Program: React.FC = () => {
     }
   };
 
+  const confirmUpdateProgram = async () => {
+    const adminId = localStorage.getItem("admin_id");
+    if (!adminId) {
+      setErrorMessage("Admin ID not found.");
+      setIsErrorModalOpen(true);
+      return;
+    }
+
+    const updatedProgram = {
+      program_id: editingProgram.program_id,
+      admin_id: adminId,
+      program_name: program,
+      program_description: description,
+      program_hours: requiredDuration,
+    };
+
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/programs/${editingProgram.program_id}`,
+        updatedProgram
+      );
+
+      // Update the program in the state
+      setPrograms(programs.map(p => p.program_id === editingProgram.program_id ? response.data : p));
+      setShowModal(false); // Close modal after updating
+      setEditingProgram(null); // Reset editing program
+    } catch (error: any) {
+      console.error(
+        "Error updating program:",
+        error.response?.data || error.message
+      );
+      setErrorMessage("Failed to update program. Please try again.");
+      setIsErrorModalOpen(true);
+    }
+  };
+
   // Handle input changes for both program and school year modals
   const handleInputChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
     field: string
   ) => {
+    const value = e.target.value;
+
     if (field === "program") {
-      setProgram(e.target.value);
+      setProgram(value);
     } else if (field === "description") {
-      setDescription(e.target.value);
+      setDescription(value);
     } else if (field === "requiredDuration") {
-      setRequiredDuration(e.target.value);
+      setRequiredDuration(value);
     } else if (field === "schoolyear") {
-      setSchoolyear(e.target.value);
+      setSchoolyear(value);
     }
   };
 
@@ -144,6 +192,16 @@ const Program: React.FC = () => {
     setDescription("");
     setRequiredDuration("");
     setSchoolyear("");
+    setEditingProgram(null); // Reset editing program
+  };
+
+  // Handle edit icon click
+  const handleEditClick = (program: any) => {
+    setEditingProgram(program);
+    setProgram(program.program_name);
+    setDescription(program.program_description);
+    setRequiredDuration(program.program_hours);
+    setShowModal(true);
   };
 
   const columns = [
@@ -156,11 +214,23 @@ const Program: React.FC = () => {
       key: "action",
       render: (row: any) => (
         <div className="action-icons">
-          <FontAwesomeIcon icon={faEdit} className="edit-icon" />
+          <FontAwesomeIcon
+            icon={faEdit}
+            className="edit-icon"
+            onClick={() => handleEditClick(row)}
+          />
         </div>
       ),
     },
   ];
+
+  const filteredPrograms = programs.filter((program) => {
+    return (
+      (program.program_name?.toLowerCase().includes(searchQuery.toLowerCase()) || "") ||
+      (program.program_description?.toLowerCase().includes(searchQuery.toLowerCase()) || "") ||
+      (program.program_hours?.toString().toLowerCase().includes(searchQuery.toLowerCase()) || "")
+    );
+  });
 
   return (
     <div className="dashboard-page">
@@ -169,10 +239,7 @@ const Program: React.FC = () => {
 
       <div className="controls-container">
         <div className="search-bar-container">
-          <SearchBar
-            placeholder="Search"
-            onSearch={(query) => console.log(query)}
-          />
+          <SearchBar placeholder="Search" onSearch={setSearchQuery} />
         </div>
 
         <div className="add-button-container">
@@ -189,22 +256,22 @@ const Program: React.FC = () => {
         </div>
       </div>
 
-      <DataTable columns={columns} data={programs} />
+      <DataTable columns={columns} data={filteredPrograms} />
 
-      {/* Add Program Modal */}
+      {/* Add/Edit Program Modal */}
       <Modal
         show={showModal}
         message="Please fill in the details below:"
-        title="Register New Program"
+        title={editingProgram ? "Edit Program" : "Register New Program"}
         onCancel={handleModalCancel}
         onConfirm={handleModalSave}
         size="medium2"
         cancelButtonText="Cancel"
-        confirmButtonText="Add"
+        confirmButtonText={editingProgram ? "Update" : "Add"}
       >
         <div className="modal-custom-header-admin-program">
           <div className="header-left">
-            <h2 className="main-header">Register New Program</h2>
+            <h2 className="main-header">{editingProgram ? "Edit Program" : "Register New Program"}</h2>
             <h3 className="sub-header">Program Details</h3>
           </div>
         </div>
@@ -220,7 +287,6 @@ const Program: React.FC = () => {
             />
 
             <label htmlFor="description">Description</label>
-
             <NameInputField
               type="text"
               id="description"

@@ -5,8 +5,21 @@ import SearchBar from "../../../../shared/components/searchbar/searchbar"; // Ad
 import DataTable from "../../../../shared/components/table/data-table";
 
 const Student: React.FC = () => {
-  const [data, setData] = useState([]);
+  interface Student {
+    student_schoolid: string;
+    coordinator_name: string;
+    program_name: string;
+    company_name: string;
+    program_hours: number;
+  }
+
+  const [data, setData] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
 
   // Column configuration for DataTable
   const columns = [
@@ -37,6 +50,15 @@ const Student: React.FC = () => {
     fetchData();
   }, []);
 
+  const filteredStudents = data.filter((student) => {
+    return (
+      student.company_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      student.program_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      student.coordinator_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      student.student_schoolid.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
+  
   return (
     <div className="dashboard-page">
       <h1 className="page-title">User Management</h1>
@@ -45,12 +67,7 @@ const Student: React.FC = () => {
       {/* Add the SearchBar, Dropdown, and PrimaryButton side by side */}
       <div className="controls-container">
         <div className="search-bar-container">
-          <SearchBar
-            placeholder="Search"
-            onSearch={(query) =>
-              console.log("Search query:", query) // You can add filtering logic here
-            }
-          />
+        <SearchBar placeholder="Search" onSearch={handleSearch} />
         </div>
       </div>
 
@@ -58,7 +75,7 @@ const Student: React.FC = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <DataTable columns={columns} data={data} />
+        <DataTable columns={columns} data={filteredStudents} />
       )}
     </div>
   );
