@@ -8,6 +8,10 @@ import {
   faPlus,
   faEnvelope,
   faIdCard,
+  faUserCheck,
+  faUserCircle,
+  faMapLocation,
+  faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PrimaryButton from "../../../../shared/components/buttons/primero-button";
@@ -248,32 +252,36 @@ const CoordinatorStudent = () => {
           </div>
           <div className="modalbody">
             <div className="leftside">
-              {/* Name Field */}
-              <label htmlFor="name">Fullname</label>
-              <NameInputField
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => handleInputChange(e, "name")}
-              />
-
-              {/* Address Field */}
-              <label htmlFor="address">Address</label>
-              <NameInputField
-                type="text"
-                id="address"
-                value={address}
-                onChange={(e) => handleInputChange(e, "address")}
-              />
-
-              {/* Contact Number Field */}
-              <label htmlFor="contact">Contact#</label>
-              <NameInputField
-                type="text"
-                id="contact"
-                value={contact}
-                onChange={(e) => handleInputChange(e, "contact")}
-              />
+              <div className="full-Name">
+                <label htmlFor="name">Fullname</label>
+                <NameInputField
+                  type="text"
+                  id="name"
+                  value={name}
+                  onChange={(e) => handleInputChange(e, "name")}
+                />
+                <FontAwesomeIcon icon={faUserCircle} className="icon" />
+              </div>
+              <div className="full-Name">
+                <label htmlFor="address">Address</label>
+                <NameInputField
+                  type="text"
+                  id="address"
+                  value={address}
+                  onChange={(e) => handleInputChange(e, "address")}
+                />
+                <FontAwesomeIcon icon={faMapLocation} className="icon" />
+              </div>
+              <div className="full-Name">
+                <label htmlFor="contact">Contact#</label>
+                <NameInputField
+                  type="text"
+                  id="contact"
+                  value={contact}
+                  onChange={(e) => handleInputChange(e, "contact")}
+                />
+                <FontAwesomeIcon icon={faPhone} className="icon" />
+              </div>
             </div>
 
             {/* Right Side */}

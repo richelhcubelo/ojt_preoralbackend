@@ -117,6 +117,7 @@
   justify-content: space-between;
   padding: 25px;
   margin-top: 1.5em;
+  margin-bottom: -10px; //cancel and save
 }
 
 .modal-body-left {
@@ -128,15 +129,59 @@
   color: #333;
   width: 50%;
 
+  .full-name {
+    position: relative;
+    margin-bottom: 8px;
+    width: 300px;
+
+    label {
+      display: flex;
+      font-size: 14px;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+
+    input {
+      padding: 10px 10px 10px 40px; // Padding to accommodate icon
+      font-family: "Montserrat", sans-serif;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: white; /* Ensure input field is white */
+      color: black;
+      font-size: 16px;
+      outline: none;
+      height: 30px;
+      width: 60%; // Full width to fit the container
+
+      &:focus {
+        border-color: #b0b0b0;
+        outline: none;
+        box-shadow: 0 0 10px rgba(1, 43, 170, 0.5);
+        color: black;
+      }
+    }
+
+    .icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+      font-size: 16px;
+      pointer-events: none;
+    }
+  }
+
   label {
     font-family: "Montserrat", sans-serif;
     font-size: 14px;
     font-weight: 500;
     color: #333;
+    margin-top: 0.5px;
     margin-right: 17em; //field name sa first column
   }
 
-  .name-input-field {
+  /*.name-input-field {
     position: relative;
     margin-bottom: 25px;
     margin-right: 2em;
@@ -173,24 +218,25 @@
       color: #888;
       font-size: 16px;
     }
-  }
+  } */
 }
 
 .modal-body-right {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: -4px;
   margin: 5px;
   color: #333;
-  margin-left: -3.2em; //space between column
+  margin-left: -2.3em; //space between column
 
   label {
     font-family: "Montserrat", sans-serif;
     font-size: 14px;
+    display: flex;
   }
 
-  .name-input-field {
+  /*.name-input-field {
     position: relative;
     margin-bottom: 20px;
     margin-right: 2em;
@@ -227,6 +273,49 @@
       color: #888;
       font-size: 16px;
     }
+  }*/
+  .call {
+    position: relative;
+    margin-bottom: 10px;
+    width: 300px;
+    margin-right: 2em;
+
+    label {
+      display: flex;
+      font-size: 14px;
+      margin-bottom: -2px;
+      font-weight: 500;
+    }
+
+    input {
+      padding: 10px 10px 10px 40px; // Padding to accommodate icon
+      font-family: "Montserrat", sans-serif;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: white; /* Ensure input field is white */
+      color: black;
+      font-size: 16px;
+      outline: none;
+      height: 30px;
+      width: 60%; // Full width to fit the container
+
+      &:focus {
+        border-color: #b0b0b0;
+        outline: none;
+        box-shadow: 0 0 10px rgba(1, 43, 170, 0.5);
+        color: black;
+      }
+    }
+
+    .icon {
+      position: absolute;
+      left: 15px;
+      top: 55%;
+      transform: translateY(-50%);
+      color: #888;
+      font-size: 16px;
+      pointer-events: none;
+    }
   }
 
   .dropdowns {
@@ -240,7 +329,7 @@
       display: flex;
       margin-left: 8px;
       margin-left: 5px;
-      margin-bottom: -13px;
+      margin-bottom: -11px;
       padding-top: 9px;
       font-weight: 500;
     }
@@ -255,7 +344,7 @@
       padding-right: 80px;
       display: flex;
       margin-left: 5px;
-      margin-bottom: -10px;
+      margin-bottom: -15px;
       padding-top: 6px;
       font-weight: 500;
     }
@@ -271,7 +360,7 @@
       font-weight: 500;
       display: flex;
       margin-left: 4px;
-      margin-top: 4px;
+      margin-top: 6px;
     }
     .contactnum {
       width: 150px;
@@ -289,42 +378,55 @@
   width: 50%;
   margin-left: -6em;
 
+  .email-user-pass {
+    position: relative;
+    margin-bottom: 5px;
+    width: 80%;
+
+    label {
+      display: flex;
+      font-size: 14px; //3rd column
+      margin-bottom: 1.5px;
+      font-weight: 500;
+    }
+
+    input {
+      padding: 10px 10px 10px 40px; // Padding to accommodate icon
+      font-family: "Montserrat", sans-serif;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: white; /* Ensure input field is white */
+      color: black;
+      font-size: 16px;
+      outline: none;
+      height: 30px;
+      width: 60%; // Full width to fit the container
+
+      &:focus {
+        border-color: #b0b0b0;
+        outline: none;
+        box-shadow: 0 0 10px rgba(1, 43, 170, 0.5);
+        color: black;
+      }
+    }
+
+    .icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+      font-size: 16px;
+      pointer-events: none;
+    }
+  }
+
   label {
     font-family: "Montserrat", sans-serif;
     font-size: 14px;
     color: #333;
     margin-right: 17em;
     font-weight: 500;
-  }
-
-  .name-input-field {
-    position: relative;
-    margin-bottom: 20px;
-    margin-right: 2em;
-    width: 300px; // Increased width
-
-    label {
-      display: block;
-      font-family: "Montserrat", sans-serif;
-      font-size: 14px;
-      margin-bottom: 5px;
-      color: #333;
-    }
-
-    input {
-      padding: 10px 35px 10px 10px; // Padding to accommodate icon
-      font-family: "Montserrat", sans-serif;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-      outline: none;
-      height: 30px;
-      color: #333;
-
-      &:focus {
-        border-color: #575c5e;
-      }
-    }
   }
 
   .email {
@@ -337,7 +439,7 @@
       padding-right: 80px;
       display: flex;
       margin-left: 4px;
-      margin-top: 0px;
+      margin-top: -2px;
     }
   }
   .username {
@@ -350,7 +452,7 @@
       padding-right: 80px;
       display: flex;
       margin-left: 4px;
-      margin-top: 6px;
+      margin-top: -5px;
     }
   }
 
@@ -368,14 +470,21 @@
     }
 
     .password-togglee {
+      color: #888;
       position: absolute;
-      right: 7em; /* Positioning from the right */
-      top: 66.5%; /* Center vertically */
+      right: 5.5em; /* Positioning from the right */
+      top: 57%; /* Center vertically */
       transform: translateY(-50%); /* Adjust for centering */
       background: none; /* No background */
       border: none; /* No border */
       cursor: pointer; /* Pointer cursor on hover */
     }
+  }
+  .para-icon {
+    width: auto;
+    font-size: 14px; // Adjusted font size to match input
+
+    margin-bottom: 7px;
   }
 }
 
@@ -467,7 +576,7 @@
       &:focus {
         border-color: #b0b0b0;
         outline: none;
-        box-shadow: 0 0 5px rgba(176, 176, 176, 0.5);
+        box-shadow: 0 0 10px rgba(1, 43, 170, 0.5);
         color: black;
       }
     }

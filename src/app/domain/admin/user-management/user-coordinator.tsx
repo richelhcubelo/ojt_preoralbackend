@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import "./user-coordinator.scss";
 import {
   faEnvelope,
+  faIdCard,
   faExclamationTriangle,
+  faUser,
+  faUserCircle,
+  faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 import SearchBar from "../../../../shared/components/searchbar/searchbar"; // Adjust the path as needed
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -408,39 +412,52 @@ const Coordinator: React.FC = () => {
           </div>
           <div className="modal-body">
             <div className="modal-body-left">
-              <label htmlFor="firstName">First Name</label>
-              <NameInputField
-                type="text"
-                id="firstName"
-                value={firstName}
-                onChange={(e) => handleInputChange(e, "firstName")}
-              />
-              <label htmlFor="middleName">Mid Name</label>
-              <NameInputField
-                type="text"
-                id="middleName"
-                value={middleName}
-                onChange={(e) => handleInputChange(e, "middleName")}
-              />
-              <label htmlFor="lastName">Last Name</label>
-              <NameInputField
-                type="text"
-                id="lastName"
-                value={lastName}
-                onChange={(e) => handleInputChange(e, "lastName")}
-              />
+              <div className="full-name">
+                <label htmlFor="firstName">Firstname</label>
+                <NameInputField
+                  type="text"
+                  id="firstName"
+                  value={firstName}
+                  onChange={(e) => handleInputChange(e, "firstName")}
+                />
+                <FontAwesomeIcon icon={faUser} className="icon" />
+              </div>
+              <div className="full-name">
+                <label htmlFor="middleName">Middlename</label>
+                <NameInputField
+                  type="text"
+                  id="middleName"
+                  value={middleName}
+                  onChange={(e) => handleInputChange(e, "middleName")}
+                />
+                <FontAwesomeIcon icon={faUserCircle} className="icon" />
+              </div>
+
+              <div className="full-name">
+                <label htmlFor="lastName">Lastname </label>
+                <NameInputField
+                  type="text"
+                  id="lastName"
+                  value={lastName}
+                  onChange={(e) => handleInputChange(e, "lastName")}
+                />
+                <FontAwesomeIcon icon={faUser} className="icon" />
+              </div>
             </div>
 
             <div className="modal-body-right">
-              <div className="contactnumber">
-                <label htmlFor="contact">Contact Number</label>
-                <NameInputField
-                  type="text"
-                  id="contact"
-                  value={contact}
-                  className="contactnumber"
-                  onChange={(e) => handleInputChange(e, "contact")}
-                />
+              <div className="call">
+                <div className="contactnumber">
+                  <label htmlFor="contact">Contact Number</label>
+                  <NameInputField
+                    type="text"
+                    id="contact"
+                    value={contact}
+                    className="contactnumber"
+                    onChange={(e) => handleInputChange(e, "contact")}
+                  />
+                  <FontAwesomeIcon icon={faPhone} className="icon" />
+                </div>
               </div>
 
               <div className="gender-dropdown">
@@ -453,7 +470,7 @@ const Coordinator: React.FC = () => {
               </div>
 
               <div className="dropdowns">
-                <label htmlFor="program">Programs</label>
+                <label htmlFor="program">Program</label>
                 <Dropdown
                   options={programOptions.map((p) => p.label)}
                   value={program} // Set the program_name as the value
@@ -468,38 +485,48 @@ const Coordinator: React.FC = () => {
             </div>
 
             <div className="modal-body-third-column">
-              <div className="email">
-                <label htmlFor="email">Email</label>
-                <NameInputField
-                  type="text"
-                  id="email"
-                  value={email}
-                  onChange={(e) => handleInputChange(e, "email")}
-                />
+              <div className="email-user-pass">
+                <div className="email">
+                  <label htmlFor="email">Email</label>
+                  <div className="para-icon">
+                    <NameInputField
+                      type="text"
+                      id="email"
+                      value={email}
+                      onChange={(e) => handleInputChange(e, "email")}
+                    />
+                    <FontAwesomeIcon icon={faEnvelope} className="icon" />
+                  </div>
+                </div>
               </div>
-              <div className="username">
-                <label htmlFor="username">Username</label>
-                <NameInputField
-                  type="text"
-                  id="username"
-                  value={username}
-                  onChange={(e) => handleInputChange(e, "username")}
-                />
+              <div className="email-user-pass">
+                <div className="username">
+                  <label htmlFor="username">Username</label>
+                  <NameInputField
+                    type="text"
+                    id="username"
+                    value={username}
+                    onChange={(e) => handleInputChange(e, "username")}
+                  />
+                  <FontAwesomeIcon icon={faIdCard} className="icon" />
+                </div>
               </div>
-              <div className="password">
-                <label htmlFor="password">Password</label>
-                <NameInputField
-                  type={showPassword ? "text" : "password"}
-                  id="password"
-                  value={password}
-                  onChange={(e) => handleInputChange(e, "password")}
-                />
-
-                <div
-                  className="password-toggle"
-                  onClick={togglePasswordVisibility}
-                >
-                  {showPassword ? <FaEye /> : <FaEyeSlash />}
+              <div className="email-user-pass">
+                <div className="password">
+                  <label htmlFor="password">Password</label>
+                  <NameInputField
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    value={password}
+                    onChange={(e) => handleInputChange(e, "password")}
+                  />
+                  <FaLock className="icon" />
+                  <div
+                    className="password-togglee"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? <FaEye /> : <FaEyeSlash />}
+                  </div>
                 </div>
               </div>
             </div>
