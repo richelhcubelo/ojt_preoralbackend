@@ -27,7 +27,6 @@ const Coordinator: React.FC = () => {
   const [middleName, setMiddleName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [contact, setContact] = useState<string>("");
-  const [program, setProgram] = useState("");
   const [sex, setSex] = useState("");
   const [email, setEmail] = useState<string>("");
   const [username, setUsername] = useState<string>("");
@@ -37,6 +36,7 @@ const Coordinator: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [coordinators, setCoordinators] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [program, setProgram] = useState<string | number>(""); // Allow both types
   const [isEdit, setIsEdit] = useState<boolean>(false); // New state to check edit mode
   const [currentCoordinatorId, setCurrentCoordinatorId] = useState<
     number | null
@@ -239,7 +239,7 @@ const Coordinator: React.FC = () => {
       setIsErrorModalOpen(true);
       return;
     }
-
+  
     const coordinatorData = {
       admin_id: localStorage.getItem("admin_id"),
       coordinator_firstname: firstName,
@@ -252,37 +252,35 @@ const Coordinator: React.FC = () => {
       coordinator_user: username,
       coordinator_pass: password,
     };
-
+  
+    console.log("Saving Coordinator Data:", coordinatorData); // Debugging
+  
     try {
       const token = localStorage.getItem("token");
-
+  
       if (isEdit && currentCoordinatorId) {
-        // PUT request for editing existing coordinator
-        await axios.put(
+        const response = await axios.put(
           `http://localhost:5000/api/update-coordinator/${currentCoordinatorId}`,
           coordinatorData,
           {
             headers: { Authorization: token },
           }
         );
+        console.log("Update Response:", response.data); // Debugging
       } else {
-        // POST request for adding a new coordinator
-        await axios.post(
+        const response = await axios.post(
           "http://localhost:5000/api/add-coordinator",
           coordinatorData,
           {
             headers: { Authorization: token },
           }
         );
+        console.log("Add Response:", response.data); // Debugging
       }
-
-      // Fetch updated coordinator list
-      const fetchResponse = await axios.get(
-        "http://localhost:5000/api/coordinators"
-      );
+  
+      const fetchResponse = await axios.get("http://localhost:5000/api/coordinators");
       setCoordinators(fetchResponse.data);
-
-      // Reset and close the modal
+  
       resetForm();
       setShowModal(false);
       setIsEdit(false);
@@ -393,21 +391,23 @@ const Coordinator: React.FC = () => {
         data={filteredCoordinators}
       />
 
-      <Modal
-        show={showModal && currentModal === "details"}
-        title=""
-        message=""
-        onCancel={handleModalCancel}
-        onConfirm={handleModalSave}
-        size="coordinatorlarge"
-        cancelButtonText="Cancel"
-        confirmButtonText="Save"
-      >
+        <Modal
+          show={showModal && currentModal === "details"}
+          title=""
+          message=""
+          onCancel={handleModalCancel}
+          onConfirm={handleModalSave}
+          size="coordinatorlarge"
+          cancelButtonText="Cancel"
+          confirmButtonText={isEdit ? "Update" : "Save"} // Dynamic button text
+        >
         <div className="modal-custom-content">
           <div className="modal-custom-header-admin-coordinator">
             <div className="header-left">
-              <h2 className="main-header">Register New Coordinator</h2>
-              <h3 className="sub-header">Coordinator Details</h3>
+                  <h2 className="main-header">
+                  {isEdit ? "Edit Coordinator" : "Register New Coordinator"}
+                  </h2>
+                  <h3 className="sub-header">Coordinator Details</h3>
             </div>
           </div>
           <div className="modal-body">
@@ -470,7 +470,7 @@ const Coordinator: React.FC = () => {
               </div>
 
               <div className="dropdowns">
-                <label htmlFor="program">Program</label>
+                <label htmlFor="program">Programs</label>
                 <Dropdown
                   options={programOptions.map((p) => p.label)}
                   value={program} // Set the program_name as the value
@@ -539,17 +539,21 @@ const Coordinator: React.FC = () => {
         title="Confirmation"
         message=""
         onCancel={handleModalCancel}
-        onConfirm={handleConfirmSave} // Here we ensure this triggers saving
+        onConfirm={handleConfirmSave}
         size="smallmed"
         cancelButtonText="Cancel"
-        confirmButtonText="Confirm"
+        confirmButtonText={isEdit ? "Update" : "Confirm"}
       >
         <div className="modal-custom-content">
           <div className="modal-custom-header">
             <div className="header-left">
-              <h2 className="main-header">Add New Coordinator</h2>
+              <h2 className="main-header">
+                {isEdit ? "Update Coordinator" : "Add New Coordinator"}
+              </h2>
               <h3 className="sub-header">
-                Are you sure you want to add this coordinator?
+                {isEdit
+                  ? "Are you sure you want to update this coordinator?"
+                  : "Are you sure you want to add this coordinator?"}
               </h3>
             </div>
           </div>
