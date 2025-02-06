@@ -470,7 +470,7 @@ const Coordinator: React.FC = () => {
               </div>
 
               <div className="dropdowns">
-                <label htmlFor="program">Programs</label>
+                <label htmlFor="program">Program</label>
                 <Dropdown
                   options={programOptions.map((p) => p.label)}
                   value={program ? String(program) : ""} // Ensure the value is a string

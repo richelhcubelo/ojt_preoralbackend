@@ -121,7 +121,7 @@ const LoginForm: React.FC = () => {
       )}
       <div className="input-container">
         <div className="input-field">
-          <label htmlFor="username">Username cute</label>
+          <label htmlFor="username">Username</label>
           <InputField
             type="text"
             placeholder=""
