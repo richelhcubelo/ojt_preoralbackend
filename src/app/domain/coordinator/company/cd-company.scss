@@ -121,7 +121,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 9px;
   margin: 12px;
   color: #333;
   margin-left: 2em;
@@ -131,9 +131,6 @@
     color: #767677;
     font-family: "Montserrat", sans-serif;
   }
-  .naming {
-    margin-right: 20px;
-  }
 
   label {
     font-family: "Montserrat", sans-serif;
@@ -142,7 +139,110 @@
     margin-right: 20em;
   }
 
-  .name-input-field {
+  .name-label {
+    padding-left: 10px;
+    margin: 5px;
+    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    font-family: "Montserrat", sans-serif;
+  
+    label {
+      padding-right: 80px;
+      display: flex;
+      margin-left: 4px;
+    }
+    .company-details {
+      position: relative;
+      margin-bottom: 10px;
+      width: 300px;
+      margin-right: 2em;
+  
+      label {
+        display: flex;
+        font-size: 14px;
+        margin-bottom: 3.5px;
+        font-weight: 500;
+      }
+  
+      input {
+        padding: 10px 10px 10px 40px; // Padding to accommodate icon
+        font-family: "Montserrat", sans-serif;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: white; /* Ensure input field is white */
+        color: black;
+        font-size: 16px;
+        outline: none;
+        height: 30px;
+        width: 60%; // Full width to fit the container
+  
+        &:focus {
+          border-color: #b0b0b0;
+          outline: none;
+          box-shadow: 0 0 10px rgba(1, 43, 170, 0.5);
+          color: black;
+        }
+      }
+  
+      .icon {
+        position: absolute;
+        left: 15px;
+        top: 55%;
+        transform: translateY(-50%);
+        color: #888;
+        font-size: 16px;
+        pointer-events: none;
+      }
+    }
+  
+  }
+
+  .companyy-details {
+    position: relative;
+    margin-bottom: 10px;
+    width: 300px;
+    margin-right: 2em;
+
+    label {
+      display: flex;
+      font-size: 14px;
+      margin-bottom: 3.5px;
+      font-weight: 500;
+    }
+
+    input {
+      padding: 10px 10px 10px 40px; // Padding to accommodate icon
+      font-family: "Montserrat", sans-serif;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: white; /* Ensure input field is white */
+      color: black;
+      font-size: 16px;
+      outline: none;
+      height: 30px;
+      width: 60%; // Full width to fit the container
+
+      &:focus {
+        border-color: #b0b0b0;
+        outline: none;
+        box-shadow: 0 0 10px rgba(1, 43, 170, 0.5);
+        color: black;
+      }
+    }
+
+    .icon {
+      position: absolute;
+      left: 15px;
+      top: 55%;
+      transform: translateY(-50%);
+      color: #888;
+      font-size: 16px;
+      pointer-events: none;
+    }
+  }
+
+  /*.name-input-field {
     position: relative;
     margin-bottom: 20px;
     margin-right: 2em;
@@ -180,7 +280,7 @@
       color: #888;
       font-size: 16px;
     }
-  }
+  }*/
 }
 
 .modal-bodyright {
@@ -207,11 +307,56 @@
   gap: 12px;
   display: flex;
   flex-direction: column;
+  font-family: "Montserrat", sans-serif;
 
   label {
     padding-right: 80px;
     display: flex;
     margin-left: 4px;
+  }
+
+  .mentor-details {
+    position: relative;
+    margin-bottom: 10px;
+    width: 300px;
+    margin-right: 2em;
+
+    label {
+      display: flex;
+      font-size: 14px;
+      margin-bottom: 3.5px;
+      font-weight: 500;
+    }
+
+    input {
+      padding: 10px 10px 10px 40px; // Padding to accommodate icon
+      font-family: "Montserrat", sans-serif;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: white; /* Ensure input field is white */
+      color: black;
+      font-size: 16px;
+      outline: none;
+      height: 30px;
+      width: 60%; // Full width to fit the container
+
+      &:focus {
+        border-color: #b0b0b0;
+        outline: none;
+        box-shadow: 0 0 10px rgba(1, 43, 170, 0.5);
+        color: black;
+      }
+    }
+
+    .icon {
+      position: absolute;
+      left: 15px;
+      top: 55%;
+      transform: translateY(-50%);
+      color: #888;
+      font-size: 16px;
+      pointer-events: none;
+    }
   }
 }
 

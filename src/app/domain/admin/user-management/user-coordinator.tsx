@@ -20,7 +20,7 @@ import Dropdown from "../../../../shared/components/dropdowns/dropdown";
 import axios from "axios";
 
 const Coordinator: React.FC = () => {
-  const [programOptions, setProgramOptions] = useState([]);
+  const [programOptions, setProgramOptions] = useState<{ value: string | number; label: string }[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [currentModal, setCurrentModal] = useState<string>("details");
   const [firstName, setFirstName] = useState<string>("");
@@ -64,7 +64,7 @@ const Coordinator: React.FC = () => {
           axios.get("http://localhost:5000/api/programname"),
         ]);
         setProgramOptions(
-          programsRes.data.map((p) => ({
+          programsRes.data.map((p: { program_id: string | number; program_name: string }) => ({
             value: p.program_id,
             label: p.program_name,
           }))
@@ -473,7 +473,7 @@ const Coordinator: React.FC = () => {
                 <label htmlFor="program">Programs</label>
                 <Dropdown
                   options={programOptions.map((p) => p.label)}
-                  value={program} // Set the program_name as the value
+                  value={program ? String(program) : ""} // Ensure the value is a string
                   onChange={(selectedLabel) => {
                     const selectedProgram = programOptions.find(
                       (p) => p.label === selectedLabel
