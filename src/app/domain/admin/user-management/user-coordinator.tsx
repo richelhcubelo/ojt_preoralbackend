@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PrimaryButton from "../../../../shared/components/buttons/primero-button";
 import DataTable from "../../../../shared/components/table/data-table";
 import Modal from "../../../../shared/components/modals/modal";
-import { FaUser, FaLock, FaEye, FaEyeSlash, FaEdit } from "react-icons/fa";
+import {  FaLock, FaEye, FaEyeSlash, FaEdit } from "react-icons/fa";
 import NameInputField from "../../../../shared/components/fields/unif";
 import Dropdown from "../../../../shared/components/dropdowns/dropdown";
 import axios from "axios";
@@ -122,34 +122,53 @@ const Coordinator: React.FC = () => {
     }
   };
 
-  const handleModalSave = () => {
-    if (
-      !firstName ||
-      !middleName ||
-      !lastName ||
-      !contact ||
-      !sex ||
-      !email ||
-      !username ||
-      !password
-    ) {
-      setErrorMessage("Please fill in all required fields.");
+// Coordinator.tsx
+const handleModalSave = async () => {
+  // Existing validations
+  if (!firstName || !lastName || !contact || !email || !username || !password) {
+    setErrorMessage("Please fill in all required fields.");
+    setIsErrorModalOpen(true);
+    return;
+  }
+
+  if (contact.length !== 11) {
+    setErrorMessage("Contact number must be exactly 11 digits.");
+    setIsErrorModalOpen(true);
+    return;
+  }
+
+  // New duplicate check
+  try {
+    const checkResponse = await axios.post(
+      "http://localhost:5000/api/add-coordinator/check-duplicates",
+      {
+        coordinator_contact: contact,
+        coordinator_email: email,
+        coordinator_user: username
+      }
+    );
+
+    const { duplicates } = checkResponse.data;
+    const errors = [];
+    if (duplicates.contact) errors.push("Contact Number");
+    if (duplicates.email) errors.push("Email");
+    if (duplicates.username) errors.push("Username");
+
+    if (errors.length > 0) {
+      setErrorMessage(`${errors.join(", ")} already exist.`);
       setIsErrorModalOpen(true);
       return;
     }
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(email)) {
-      setErrorMessage("Invalid email format.");
-      setIsErrorModalOpen(true);
-      return;
-    }
-    if (contact.length !== 11) {
-      setErrorMessage("Contact number must be exactly 11 digits.");
-      setIsErrorModalOpen(true);
-      return;
-    }
-    setCurrentModal("confirmation");
-  };
+  } catch (error) {
+    console.error("Duplicate check failed:", error);
+    setErrorMessage("Error checking for duplicates. Please try again.");
+    setIsErrorModalOpen(true);
+    return;
+  }
+
+  // Proceed to confirmation if no duplicates
+  setCurrentModal("confirmation");
+};
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -282,7 +301,7 @@ const Coordinator: React.FC = () => {
       setCoordinators(fetchResponse.data);
   
       resetForm();
-      setShowModal(false);
+      setShowModal(false); // Close the modal after successful save
       setIsEdit(false);
       setCurrentCoordinatorId(null);
     } catch (error: any) {
@@ -463,7 +482,7 @@ const Coordinator: React.FC = () => {
               <div className="gender-dropdown">
                 <label htmlFor="gender">Gender</label>
                 <Dropdown
-                  options={["Male", "Female", "Other"]}
+                  options={["Male", "Female"]}
                   value={sex}
                   onChange={(value) => setSex(value)}
                 />

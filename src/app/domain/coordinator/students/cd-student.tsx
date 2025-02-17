@@ -8,10 +8,10 @@ import {
   faPlus,
   faEnvelope,
   faIdCard,
-  faUserCheck,
   faUserCircle,
   faMapLocation,
   faPhone,
+  faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PrimaryButton from "../../../../shared/components/buttons/primero-button";
@@ -22,25 +22,25 @@ import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 
 const CoordinatorStudent = () => {
   const [studentData, setStudentData] = useState([]);
-  const [programOptions, setProgramOptions] = useState([]);
-  const [companyOptions, setCompanyOptions] = useState([]);
-  const [schoolYearOptions, setSchoolYearOptions] = useState([]);
-  const [coordinatorId, setCoordinatorId] = useState(null);
-
+  const [filteredStudentData, setFilteredStudentData] = useState([]);
+  const [companyOptions, setCompanyOptions] = useState<{ value: string; label: string }[]>([]);
+  const [coordinatorId, setCoordinatorId] = useState<string | null>(null);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [contact, setContact] = useState("");
   const [sex, setSex] = useState("");
   const [studentId, setStudentId] = useState("");
-  const [program, setProgram] = useState("");
-  const [schoolYear, setSchoolYear] = useState("");
   const [company, setCompany] = useState("");
   const [status, setStatus] = useState("Active");
-  const [currentModal, setCurrentModal] = useState(null);
+  const [currentModal, setCurrentModal] = useState<null | "credentials">(null);
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedStudent, setSelectedStudent] = useState<any>(null); // New state for selected student
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
@@ -54,7 +54,6 @@ const CoordinatorStudent = () => {
     }
   }, []);
 
-  // Fetch data for dropdowns and students
   useEffect(() => {
     const fetchData = async () => {
       if (!coordinatorId) return;
@@ -70,8 +69,9 @@ const CoordinatorStudent = () => {
         ]);
 
         setStudentData(studentsRes.data);
+        setFilteredStudentData(studentsRes.data);
         setCompanyOptions(
-          companiesRes.data.map((c) => ({
+          companiesRes.data.map((c: { company_id: string; company_name: string }) => ({
             value: c.company_id,
             label: c.company_name,
           }))
@@ -84,7 +84,37 @@ const CoordinatorStudent = () => {
     fetchData();
   }, [coordinatorId]);
 
-  const handleAddButtonClick = () => setShowModal(true);
+  useEffect(() => {
+    if (searchQuery) {
+      const filteredData = studentData.filter((student: any) =>
+        student.student_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        student.student_schoolid.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        student.student_email.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredStudentData(filteredData);
+    } else {
+      setFilteredStudentData(studentData);
+    }
+  }, [searchQuery, studentData]);
+
+  const handleAddButtonClick = () => {
+    setSelectedStudent(null); // Reset selected student when adding a new one
+    setShowModal(true);
+  };
+
+  const handleEditButtonClick = (student: any) => {
+    setSelectedStudent(student);
+    setName(student.student_name);
+    setAddress(student.student_address);
+    setContact(student.student_contact);
+    setSex(student.student_sex);
+    setStudentId(student.student_schoolid);
+    setCompany(student.company_id);
+    setStatus(student.student_status);
+    setEmail(student.student_email);
+    setPassword(student.student_password); // Assuming you have a password field
+    setShowModal(true);
+  };
 
   const handleModalCancel = () => {
     setShowModal(false);
@@ -92,9 +122,51 @@ const CoordinatorStudent = () => {
     resetForm();
   };
 
-  const handleModalRegister = () => setCurrentModal("credentials");
+  const validateForm = () => {
+    const nameRegex = /^[a-zA-ZÀ-ÿ\s'-]+$/;
+    if (!nameRegex.test(name)) {
+      setErrorMessage("Fullname contains invalid characters");
+      return false;
+    }
+
+    const contactRegex = /^\d{11}$/;
+    if (!contactRegex.test(contact)) {
+      setErrorMessage("Contact number must be 11 digits");
+      return false;
+    }
+
+    const addressRegex = /^[a-zA-Z0-9\s.,-]+$/;
+    if (!addressRegex.test(address)) {
+      setErrorMessage("Address contains invalid characters");
+      return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setErrorMessage("Invalid email format");
+      return false;
+    }
+
+    const schoolIdRegex = /^\d+$/;
+    if (!schoolIdRegex.test(studentId)) {
+      setErrorMessage("School ID must be numbers only");
+      return false;
+    }
+
+    if (password.length < 8) {
+      setErrorMessage("Password must be at least 8 characters");
+      return false;
+    }
+
+    return true;
+  };
 
   const handleFinalRegistration = async () => {
+    if (!validateForm()) {
+      setIsErrorModalOpen(true);
+      return;
+    }
+  
     try {
       const newStudent = {
         coordinator_id: coordinatorId,
@@ -108,23 +180,45 @@ const CoordinatorStudent = () => {
         student_schoolid: studentId,
         student_password: password,
       };
-
-      await axios.post("http://localhost:5000/api/add-student", newStudent);
-      setShowModal(false);
-      setCurrentModal(null);
+  
+      if (selectedStudent) {
+        // Update existing student
+        await axios.put(
+          `http://localhost:5000/api/add-student/${selectedStudent.student_id}`,
+          newStudent
+        );
+      } else {
+        // Create new student
+        await axios.post("http://localhost:5000/api/add-student", newStudent);
+      }
+  
+      // Clear the form and close the modal
       resetForm();
-
+      setShowModal(false);
+  
+      // Refresh the student data
       const updatedStudents = await axios.get(
         "http://localhost:5000/api/studentsni",
         { params: { coordinator_id: coordinatorId } }
       );
       setStudentData(updatedStudents.data);
+      setFilteredStudentData(updatedStudents.data);
     } catch (error) {
       console.error("Error registering student:", error);
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 409) {
+          setErrorMessage(error.response.data.message);
+        } else {
+          setErrorMessage(error.response?.data.message || "Registration failed. Please try again.");
+        }
+      } else {
+        setErrorMessage("An unexpected error occurred");
+      }
+      setIsErrorModalOpen(true);
     }
   };
 
-  const handleInputChange = (e, field) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: string) => {
     const value = e.target.value;
     switch (field) {
       case "name":
@@ -163,6 +257,7 @@ const CoordinatorStudent = () => {
     setStatus("Active");
     setEmail("");
     setPassword("");
+    setSelectedStudent(null); // Clear the selected student
   };
 
   const columns = [
@@ -171,7 +266,7 @@ const CoordinatorStudent = () => {
     {
       header: "Student Info",
       key: "studentInfo",
-      render: (row) => (
+      render: (row: any) => (
         <div className="student-info">
           <p>
             <strong>Name:</strong> {row.student_name || "N/A"}
@@ -189,19 +284,17 @@ const CoordinatorStudent = () => {
       ),
     },
     { header: "Company", key: "company_name" },
-    { header: "Email", key: "email" },
+    { header: "Email", key: "student_email" },
     { header: "Status", key: "student_status" },
     {
       header: "Action",
       key: "action",
-      render: (row) => (
+      render: (row: any) => (
         <div className="action-icons">
           <FontAwesomeIcon
             icon={faEdit}
             className="edit-icon"
-            onClick={() =>
-              console.log("Edit student record with ID:", row.student_id)
-            }
+            onClick={() => handleEditButtonClick(row)}
           />
         </div>
       ),
@@ -217,7 +310,7 @@ const CoordinatorStudent = () => {
         <div className="search-bar-container">
           <SearchBar
             placeholder="Search"
-            onSearch={(query) => console.log(query)}
+            onSearch={(query) => setSearchQuery(query)}
           />
         </div>
         <div className="add-button-container">
@@ -229,24 +322,22 @@ const CoordinatorStudent = () => {
         </div>
       </div>
 
-      <DataTable columns={columns} data={studentData} />
+      <DataTable columns={columns} data={filteredStudentData} />
 
-      {/* Modals */}
-      {/* Registration Modal */}
       <Modal
-        show={showModal && currentModal !== "credentials"}
-        title=""
-        message=""
-        onCancel={handleModalCancel}
-        onConfirm={handleModalRegister}
-        size="coordinatorlarge"
-        cancelButtonText="Cancel"
-        confirmButtonText="Save"
-      >
+          show={showModal && currentModal !== "credentials"}
+          title=""
+          message=""
+          onCancel={handleModalCancel}
+          onConfirm={handleFinalRegistration}
+          size="coordinatorlarge"
+          cancelButtonText="Cancel"
+          confirmButtonText={selectedStudent ? "Update" : "Save"}
+        >
         <div className="modal-custom-content">
           <div className="modal-custom-header-student">
             <div className="header-left">
-              <h2 className="main-header">Register New Student</h2>
+              <h2 className="main-header">{selectedStudent ? "Edit Student" : "Register New Student"}</h2>
               <h3 className="sub-header">Student Details</h3>
             </div>
           </div>
@@ -284,11 +375,9 @@ const CoordinatorStudent = () => {
               </div>
             </div>
 
-            {/* Right Side */}
             <div className="right">
               <div className="left-dropdowns">
                 <div className="sex-dropdown">
-                  {/* Sex Dropdown */}
                   <label htmlFor="sex">Sex</label>
                   <Dropdown
                     options={["Male", "Female", "Other"]}
@@ -296,7 +385,6 @@ const CoordinatorStudent = () => {
                     onChange={(value) => setSex(value)}
                   />
                 </div>
-                {/* Company Dropdown */}
                 <div className="company-dropdown">
                   <label htmlFor="company">Company</label>
                   <Dropdown
@@ -313,7 +401,6 @@ const CoordinatorStudent = () => {
                     }
                   />
                 </div>
-                {/* Status Dropdown */}
                 <div className="status-dropdown">
                   <label htmlFor="status">Status</label>
                   <Dropdown
@@ -330,7 +417,7 @@ const CoordinatorStudent = () => {
                 <label htmlFor="email">Email</label>
                 <div className="name-input-field-wrapper">
                   <NameInputField
-                    type="text"
+                    type="email"
                     id="email"
                     value={email}
                     onChange={(e) => handleInputChange(e, "email")}
@@ -372,6 +459,30 @@ const CoordinatorStudent = () => {
           </div>
         </div>
       </Modal>
+
+      <Modal
+          show={isErrorModalOpen}
+          title="Error"
+          message={errorMessage}
+          onCancel={() => setIsErrorModalOpen(false)}
+          size="small"
+          singleButton={true}
+        >
+          <div className="modal-custom-content">
+            <div className="modal-custom-header">
+              <div className="header-left">
+                <h2 className="main-header">
+                  <FontAwesomeIcon
+                    icon={faExclamationTriangle}
+                    className="error-icon"
+                  />
+                  Error
+                </h2>
+                <h3 className="sub-header">{errorMessage}</h3>
+              </div>
+            </div>
+          </div>
+        </Modal>
     </div>
   );
 };

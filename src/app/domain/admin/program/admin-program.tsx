@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./admin-program.scss";
 import SearchBar from "../../../../shared/components/searchbar/searchbar";
 import PrimaryButton from "../../../../shared/components/buttons/primero-button";
@@ -23,18 +23,19 @@ const Program: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [editingProgram, setEditingProgram] = useState<any | null>(null);
 
-  useEffect(() => {
-    // Fetch existing programs from the server
-    const fetchPrograms = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/programs");
-        setPrograms(response.data);
-      } catch (error) {
-        console.error("Error fetching programs:", error);
-      }
-    };
-    fetchPrograms();
+  // Fetch programs from the server
+  const fetchPrograms = useCallback(async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/programs");
+      setPrograms(response.data);
+    } catch (error) {
+      console.error("Error fetching programs:", error);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchPrograms();
+  }, [fetchPrograms]);
 
   // Open Add Program Modal
   const handleAddButtonClick = () => {
@@ -50,37 +51,70 @@ const Program: React.FC = () => {
     setShowYModal(true);
   };
 
-  // Save school year
+  // Validation function for school year
+  const validateSchoolYear = (schoolYear: string) => {
+    if (!schoolYear.trim()) {
+      return { isValid: false, message: "School year is required." };
+    }
+
+    const regex = /^\d{4}-\d{4}$/;
+    if (!regex.test(schoolYear)) {
+      return { isValid: false, message: "School year must be in the format 'YYYY-YYYY'." };
+    }
+
+    const [startYearStr, endYearStr] = schoolYear.split('-');
+    const startYear = parseInt(startYearStr, 10);
+    const endYear = parseInt(endYearStr, 10);
+
+    if (endYear !== startYear + 1) {
+      return { isValid: false, message: "School years must be consecutive (e.g., 2024-2025)." };
+    }
+
+    if (startYear >= endYear) {
+      return { isValid: false, message: "Start year must be less than end year." };
+    }
+
+    return { isValid: true, message: "" };
+  };
+
+  // Save school year (updated with validation)
   const handleYearModalSave = async () => {
     const adminId = localStorage.getItem("admin_id");
 
-    if (!schoolyear) {
-      setErrorMessage("School year is required.");
-      setIsErrorModalOpen(true);
-      return;
+    // Validate school year input
+    const validation = validateSchoolYear(schoolyear);
+    if (!validation.isValid) {
+        setErrorMessage(validation.message);
+        setIsErrorModalOpen(true);
+        return;
     }
 
     const newSchoolYear = {
-      admin_id: adminId,
-      school_yr: schoolyear,
+        admin_id: adminId,
+        school_yr: schoolyear,
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/add-schoolyear",
-        newSchoolYear
-      );
-      setSchoolyear("");
-      setShowYModal(false); // Close modal after saving
+        const response = await axios.post(
+            "http://localhost:5000/api/add-schoolyear",
+            newSchoolYear
+        );
+        if (response.data.message === 'School year already exists.') {
+            setErrorMessage("School year already exists.");
+            setIsErrorModalOpen(true);
+            return;
+        }
+        setSchoolyear("");
+        setShowYModal(false); // Close modal after saving
     } catch (error: any) {
-      console.error(
-        "Error saving school year:",
-        error.response?.data || error.message
-      );
-      setErrorMessage("Failed to save school year. Please try again.");
-      setIsErrorModalOpen(true);
+        console.error(
+            "Error saving school year:",
+            error.response?.data || error.message
+        );
+        setErrorMessage(error.response?.data?.message || "Failed to save school year. Please try again.");
+        setIsErrorModalOpen(true);
     }
-  };
+};
 
   // Save or update program
   const handleModalSave = async () => {
@@ -99,72 +133,76 @@ const Program: React.FC = () => {
   const confirmAddProgram = async () => {
     const adminId = localStorage.getItem("admin_id");
     if (!adminId) {
-      setErrorMessage("Admin ID not found.");
-      setIsErrorModalOpen(true);
-      return;
+        setErrorMessage("Admin ID not found.");
+        setIsErrorModalOpen(true);
+        return;
     }
 
     const newProgram = {
-      admin_id: adminId,
-      program_name: program,
-      program_description: description,
-      program_hours: requiredDuration,
+        admin_id: adminId,
+        program_name: program,
+        program_description: description,
+        program_hours: requiredDuration,
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/add-program",
-        newProgram
-      );
-
-      // Add new program to the state and close modal
-      setPrograms([...programs, response.data]);
-      setShowModal(false); // Close modal after saving
+        await axios.post(
+            "http://localhost:5000/api/add-program",
+            newProgram
+        );
+        await fetchPrograms(); // Refresh the program list
+        setShowModal(false); // Close modal after saving
     } catch (error: any) {
-      console.error(
-        "Error saving program:",
-        error.response?.data || error.message
-      );
-      setErrorMessage("Failed to save program. Please try again.");
-      setIsErrorModalOpen(true);
+        console.error(
+            "Error saving program:",
+            error.response?.data || error.message
+        );
+        // Handle duplicate program error
+        const errorMessage = error.response?.data?.message === 'Program with the same name and description already exists' 
+            ? 'A program with the same name and description already exists.' 
+            : 'Failed to save program. Please try again.';
+        setErrorMessage(errorMessage);
+        setIsErrorModalOpen(true);
     }
-  };
+};
 
-  const confirmUpdateProgram = async () => {
-    const adminId = localStorage.getItem("admin_id");
-    if (!adminId) {
+const confirmUpdateProgram = async () => {
+  const adminId = localStorage.getItem("admin_id");
+  if (!adminId) {
       setErrorMessage("Admin ID not found.");
       setIsErrorModalOpen(true);
       return;
-    }
+  }
 
-    const updatedProgram = {
+  const updatedProgram = {
       program_id: editingProgram.program_id,
       admin_id: adminId,
       program_name: program,
       program_description: description,
       program_hours: requiredDuration,
-    };
+  };
 
-    try {
-      const response = await axios.put(
-        `http://localhost:5000/api/programs/${editingProgram.program_id}`,
-        updatedProgram
+  try {
+      await axios.put(
+          `http://localhost:5000/api/programs/${editingProgram.program_id}`,
+          updatedProgram
       );
-
-      // Update the program in the state
-      setPrograms(programs.map(p => p.program_id === editingProgram.program_id ? response.data : p));
+      await fetchPrograms(); // Refresh the program list
       setShowModal(false); // Close modal after updating
       setEditingProgram(null); // Reset editing program
-    } catch (error: any) {
+  } catch (error: any) {
       console.error(
-        "Error updating program:",
-        error.response?.data || error.message
+          "Error updating program:",
+          error.response?.data || error.message
       );
-      setErrorMessage("Failed to update program. Please try again.");
+      // Handle duplicate program error
+      const errorMessage = error.response?.data?.message === 'A program with the same name and description already exists.' 
+          ? 'A program with the same name and description already exists.' 
+          : 'Failed to update program. Please try again.';
+      setErrorMessage(errorMessage);
       setIsErrorModalOpen(true);
-    }
-  };
+  }
+};
 
   // Handle input changes for both program and school year modals
   const handleInputChange = (

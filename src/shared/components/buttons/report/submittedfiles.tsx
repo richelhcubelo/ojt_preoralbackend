@@ -19,7 +19,6 @@ const SubmittedFiles: React.FC = () => {
 
   const columns = [
     { header: "#", key: "id" },
-    { header: "Date", key: "date" },
     { header: "Student", key: "student" },
     { header: "Uploaded Files", key: "uploadedFiles" },
   ];

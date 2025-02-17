@@ -288,6 +288,29 @@ const CoordinatorCompany = () => {
                     </div>
                 </div>
             </Modal>
+                  <Modal
+        show={isErrorModalOpen}
+        title="Error"
+        message={errorMessage}
+        onCancel={() => setIsErrorModalOpen(false)}
+        size="small"
+        singleButton={true}
+      >
+        <div className="modal-custom-content">
+          <div className="modal-custom-header">
+            <div className="header-left">
+              <h2 className="main-header">
+                <FontAwesomeIcon
+                  icon={faExclamationTriangle}
+                  className="error-icon"
+                />
+                Error
+              </h2>
+              <h3 className="sub-header">{errorMessage}</h3>
+            </div>
+          </div>
+        </div>
+      </Modal>
         </div>
     );
 };
