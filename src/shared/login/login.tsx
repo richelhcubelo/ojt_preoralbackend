@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import InputField from "../components/fields/inputfield";
 import logo from "../assets/logo-sidebar.png";
+import config from "../../config";
 
 const LoginForm: React.FC = () => {
   const [loginData, setLoginData] = useState({
@@ -52,7 +53,7 @@ const LoginForm: React.FC = () => {
     if (!validateForm()) return;
 
     try {
-      const response = await fetch("http://localhost:5000/login", {
+      const response = await fetch(`${config.API_BASE_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

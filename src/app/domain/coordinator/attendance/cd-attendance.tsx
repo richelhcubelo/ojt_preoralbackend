@@ -5,6 +5,7 @@ import SearchBar from "../../../../shared/components/searchbar/searchbar"; // Ad
 import DataTable from "../../../../shared/components/table/data-table";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import config from "../../../../config";
 
 const Attendance: React.FC = () => {
   const [attendanceData, setAttendanceData] = useState([]);
@@ -17,7 +18,7 @@ const Attendance: React.FC = () => {
     const storedCoordinatorId = localStorage.getItem("coordinator_id");
     if (storedCoordinatorId) {
       fetch(
-        `http://localhost:5000/api/timesheet?coordinator_id=${storedCoordinatorId}`
+        `${config.API_BASE_URL}/api/timesheet?coordinator_id=${storedCoordinatorId}`
       )
         .then((response) => {
           if (!response.ok) {

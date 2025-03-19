@@ -3,6 +3,7 @@ import "./admin-dashboard.scss";
 import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "../../../../shared/components/sidebar/admin-sidebar";
+import config from "../../../../config";
 
 const Dashboard: React.FC = () => {
   const [activeItem, setActiveItem] = useState<string>("overview");
@@ -12,7 +13,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchAdminData = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/admin");
+        const response = await axios.get(`${config.API_BASE_URL}/admin`);
         const admins = response.data;
 
         // Retrieve the current user's UUID from localStorage

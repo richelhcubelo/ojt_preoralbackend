@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./coordinator-dashboard.scss";
 import { FaBuilding, FaGraduationCap } from "react-icons/fa";
-import NewCoordinatorCard from "../../../../shared/components/new-coordinator/new-coordinator";
 import Card from "../../../../shared/components/cards/card";
 import BarChartCard from "../../../../shared/components/charts/bar-chart";
 import welcomeGif from "../../../../shared/assets/welcome.gif";
-
+import config from "../../../../config";
 const CoordinatorDashboard: React.FC = () => {
   const [coordinatorId, setCoordinatorId] = useState<string | null>(null);
   const [totalCompanies, setTotalCompanies] = useState<number | null>(null);
@@ -37,7 +36,7 @@ const CoordinatorDashboard: React.FC = () => {
     const fetchTotalCompanies = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/count-companies?coordinator_id=${coordinatorId}`
+          `${config.API_BASE_URL}/api/count-companies?coordinator_id=${coordinatorId}`
         );
         setTotalCompanies(response.data.count);
       } catch (error) {
@@ -48,7 +47,7 @@ const CoordinatorDashboard: React.FC = () => {
     const fetchTotalStudents = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/count-students?coordinator_id=${coordinatorId}`
+          `${config.API_BASE_URL}/api/count-students?coordinator_id=${coordinatorId}`
         );
         setTotalStudents(response.data.count);
       } catch (error) {
@@ -59,7 +58,7 @@ const CoordinatorDashboard: React.FC = () => {
     const fetchRecentlyAddedStudents = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/recent-students?coordinator_id=${coordinatorId}`
+         `${config.API_BASE_URL}/api/recent-students?coordinator_id=${coordinatorId}`
         );
         setRecentlyAddedStudents(
           response.data.recentStudents.map((student: any) => ({
@@ -85,7 +84,7 @@ const CoordinatorDashboard: React.FC = () => {
     const fetchCoordinatorName = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/coordinatorwc?coordinator_id=${coordinatorId}`
+          `${config.API_BASE_URL}/api/coordinatorwc?coordinator_id=${coordinatorId}`
         );
         setCoordinatorName(response.data.fullName);
       } catch (error) {

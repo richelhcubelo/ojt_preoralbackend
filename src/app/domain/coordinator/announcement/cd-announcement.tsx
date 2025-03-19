@@ -8,7 +8,7 @@ import SearchBar from "../../../../shared/components/searchbar/searchbar";
 import Modal from "../../../../shared/components/modals/modal";
 import Dropdown from "../../../../shared/components/dropdowns/dropdown";
 import NameInputField from "../../../../shared/components/fields/unif";
-
+import config from "../../../../config";
 interface Announcement {
   title: string;
   content: string;
@@ -41,7 +41,7 @@ const CoordinatorAnnouncement: React.FC = () => {
 
   const fetchAnnouncements = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/announcementsni?coordinator_id=${coordinatorId}`);
+      const response = await fetch(`${config.API_BASE_URL}/api/announcementsni?coordinator_id=${coordinatorId}`);
       const data = await response.json();
       setAnnouncements(
         data.map((item: any) => ({
@@ -72,7 +72,7 @@ const CoordinatorAnnouncement: React.FC = () => {
     };
 
     try {
-      await fetch("http://localhost:5000/api/announcements", {
+      await fetch(`${config.API_BASE_URL}api/announcements`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newAnnouncementData),

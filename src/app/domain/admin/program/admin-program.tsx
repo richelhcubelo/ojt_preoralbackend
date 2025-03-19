@@ -9,6 +9,7 @@ import Modal from "../../../../shared/components/modals/modal";
 import NameInputField from "../../../../shared/components/fields/unif";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import config from "../../../../config";
 
 const Program: React.FC = () => {
   const [programs, setPrograms] = useState<any[]>([]);
@@ -26,7 +27,7 @@ const Program: React.FC = () => {
   // Fetch programs from the server
   const fetchPrograms = useCallback(async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/programs");
+      const response = await axios.get(`${config.API_BASE_URL}/api/programs`);
       setPrograms(response.data);
     } catch (error) {
       console.error("Error fetching programs:", error);
@@ -96,7 +97,7 @@ const Program: React.FC = () => {
 
     try {
         const response = await axios.post(
-            "http://localhost:5000/api/add-schoolyear",
+            `${config.API_BASE_URL}/api/add-schoolyear`,
             newSchoolYear
         );
         if (response.data.message === 'School year already exists.') {
@@ -147,7 +148,7 @@ const Program: React.FC = () => {
 
     try {
         await axios.post(
-            "http://localhost:5000/api/add-program",
+            `${config.API_BASE_URL}/api/add-program`,
             newProgram
         );
         await fetchPrograms(); // Refresh the program list
@@ -184,7 +185,7 @@ const confirmUpdateProgram = async () => {
 
   try {
       await axios.put(
-          `http://localhost:5000/api/programs/${editingProgram.program_id}`,
+          `${config.API_BASE_URL}/api/programs/${editingProgram.program_id}`,
           updatedProgram
       );
       await fetchPrograms(); // Refresh the program list

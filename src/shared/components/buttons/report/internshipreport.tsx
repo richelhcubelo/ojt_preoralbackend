@@ -5,7 +5,7 @@ import SearchBar from "../../searchbar/searchbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPrint } from "@fortawesome/free-solid-svg-icons";
 import PrimaryButton from "../primero-button";
-
+import config from "../../../../config";
 const InternshipReport: React.FC = () => {
   const [attendanceData, setAttendanceData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,7 +25,7 @@ const InternshipReport: React.FC = () => {
   // Fetch student timesheet data when searchQuery changes
   useEffect(() => {
     if (searchQuery && coordinatorId) {
-      fetch(`http://localhost:5000/api/reportstudent?coordinatorId=${coordinatorId}&searchQuery=${searchQuery}`)
+      fetch(`${config.API_BASE_URL}/api/reportstudent?coordinatorId=${coordinatorId}&searchQuery=${searchQuery}`)
         .then((response) => response.json())
         .then((data) => {
           setAttendanceData(data);

@@ -12,6 +12,7 @@ import Card from "../../../../shared/components/cards/card";
 import ProgressRingCard from "../../../../shared/components/charts/ring-chart";
 import LineChartCard from "../../../../shared/components/charts/line-chart";
 import NewCoordinatorCard from "../../../../shared/components/new-coordinator/new-coordinator";
+import config from "../../../../config";
 
 const Overview: React.FC = () => {
   const [totalCoordinators, setTotalCoordinators] = useState<number | null>(
@@ -32,7 +33,7 @@ const Overview: React.FC = () => {
     const fetchTotalCoordinators = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/count-coordinators"
+          `${config.API_BASE_URL}/api/count-coordinators`
         );
         setTotalCoordinators(response.data.count); // Set the count of coordinators
       } catch (error) {
@@ -43,7 +44,7 @@ const Overview: React.FC = () => {
     const fetchTotalStudents = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/countall-students"
+          `${config.API_BASE_URL}/countall-students`
         );
         setTotalStudents(response.data.count);
       } catch (error) {
@@ -54,7 +55,7 @@ const Overview: React.FC = () => {
     const fetchTotalPrograms = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/count-programs"
+          `${config.API_BASE_URL}/api/count-programs`
         ); // Adjust the port to match your backend port
         setTotalPrograms(response.data.count); // Set the count in your state
       } catch (error) {
@@ -65,7 +66,7 @@ const Overview: React.FC = () => {
     const fetchTotalCompanies = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/countall-companies"
+         `${config.API_BASE_URL}/countall-companies`
         );
         setTotalCompanies(response.data.count);
       } catch (error) {
@@ -76,7 +77,7 @@ const Overview: React.FC = () => {
     const fetchRecentlyAddedCoordinators = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/recent-coordinators"
+          `${config.API_BASE_URL}/api/recent-coordinators`
         );
         setRecentlyAddedCoordinators(response.data.recentCoordinators);
       } catch (error) {
@@ -87,7 +88,7 @@ const Overview: React.FC = () => {
     const fetchAttendancePercentage = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3001/attendance-percentage"
+          `${config.API_BASE_URL}/attendance-percentage`
         );
         setAttendancePercentage(response.data.percentage);
       } catch (error) {

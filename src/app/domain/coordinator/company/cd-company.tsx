@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./cd-company.scss";
 import SearchBar from "../../../../shared/components/searchbar/searchbar";
 import DataTable from "../../../../shared/components/table/data-table";
-import { faEdit, faPlus, faExclamationTriangle, faUser, faMobile, faPhone, faMapLocation } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faPlus, faExclamationTriangle, faUser, faPhone, faMapLocation } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PrimaryButton from "../../../../shared/components/buttons/primero-button";
 import Modal from "../../../../shared/components/modals/modal";
 import NameInputField from "../../../../shared/components/fields/unif";
 import axios from "axios";
+import config from "../../../../config";
 
 const CoordinatorCompany = () => {
     interface Company {
@@ -43,7 +44,7 @@ const CoordinatorCompany = () => {
         if (!coordinatorId) return;
 
         try {
-            const response = await axios.get("http://localhost:5000/api/companiesni", {
+            const response = await axios.get(`${config.API_BASE_URL}/api/companiesni`, {
                 params: { coordinator_id: coordinatorId },
             });
             const companies = response.data.map((company: any, index: number) => ({
@@ -128,7 +129,7 @@ const CoordinatorCompany = () => {
 
         try {
             if (editingCompany) {
-                await axios.put(`http://localhost:5000/api/company/${editingCompany.id}`, {
+                await axios.put(`${config.API_BASE_URL}/api/company/${editingCompany.id}`, {
                     company_name: formData.companyName,
                     company_address: formData.address,
                     company_mentor: formData.mentorName,
@@ -136,7 +137,7 @@ const CoordinatorCompany = () => {
                 });
                 fetchCompanies();
             } else {
-                await axios.post("http://localhost:5000/api/add-company", {
+                await axios.post(`${config.API_BASE_URL}/api/add-company`, {
                     coordinator_id: coordinatorId,
                     company_name: formData.companyName,
                     company_address: formData.address,
